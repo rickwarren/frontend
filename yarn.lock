@@ -1790,10 +1790,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.2.40":
-  version "18.2.40"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.40.tgz"
-  integrity sha512-H+BUhb9C1zBtogDLAk+KCNRKiHDrqSwQT/0z0PVTwMFBxqg3011ByLomADtgkgMkfwj4AMOiXBReyLTUBg681g==
+"@types/react@*", "@types/react@^18.2.42":
+  version "18.2.42"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.42.tgz#6f6b11a904f6d96dda3c2920328a97011a00aba7"
+  integrity sha512-c1zEr96MjakLYus/wPnuWDo1/zErfdU9rNsIGmE+NV71nx88FG9Ttgo5dqorXTu/LImX2f63WBP986gJkMPNbA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -5698,6 +5698,7 @@ string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
     emoji-regex "^8.0.0"
     is-fullwidth-code-point "^3.0.0"
     strip-ansi "^6.0.1"
+
 
 string-width@^7.0.0:
   version "7.0.0"
