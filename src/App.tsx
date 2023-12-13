@@ -7,17 +7,15 @@ import Header from './layout/Header/header';
 import Sidebar from './layout/Sidebar/sidebar';
 import Footer from './layout/Footer/footer';
 import AuthProvider from './providers/AuthProvider/AuthProvider';
-import { Router } from "./router";
+import { Content } from "./layout/Content";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <AuthProvider>
-          <Sidebar />
           <Header />
-          <Router />
-          <Footer />
+          <Content />
         </AuthProvider>
       </BrowserRouter>
     </>

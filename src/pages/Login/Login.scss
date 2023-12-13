@@ -1,5 +1,4 @@
 .login-form {
-    float: left;
     padding: 30px;
 }
 
@@ -12,8 +11,27 @@ a.login-form-forgot {
     display: block;
 }
 
-f {}
-
 .ant-form-item-control-input-content a {
     display: block;
+}
+
+.login-form {
+    position: relative;
+    height: auto;
+    padding: 48px;
+    overflow: hidden;
+    text-align: center;
+    margin: auto;
+    height: 95vh;
+}
+
+form.login-form {
+    text-align: center;
+    padding: 30px;
+    max-width: 300px;
+    margin: auto;
+}
+
+.ant-drawer-content {
+    background-color: #f0f6ff !important;
 }

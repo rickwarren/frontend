@@ -1,17 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
 import { useRoutePaths } from '@/hooks'
-import { Events, Feed, Friends, Groups, Login, NoMatch, Profile, Register } from '@/pages'
+import { Events, Feed, Friends, Groups, Login, NoMatch, MyProfile } from '@/pages'
 import { PrivateRoute } from '../PrivateRoute'
 import { PublicRoute } from '../PublicRoute'
 import { ProfileActivity, ProfileFriends, ProfilePhotos, ProfileVideos } from '@/components'
+import Profile from '@/pages/Profile/profile'
 
 
 function Router() {
   const {
     FEED_PATH,
     LOGIN_PATH,
-    REGISTER_PATH,
     PROFILE_PATH,
+    USER_PROFILE_PATH,
     PROFILE_ACTIVITY_PATH,
     PROFILE_FRIENDS_PATH,
     PROFILE_PHOTOS_PATH,
@@ -47,7 +48,6 @@ function Router() {
           </PublicRoute>
         }
       />
-      <Route path={REGISTER_PATH} element={<Register />} />
       <Route
         path={PROFILE_PATH}
         element={

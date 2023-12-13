@@ -5,6 +5,7 @@ import { AuthContext, SignInCredentials, User } from '@/contexts'
 import { paths } from '@/router'
 import { api, setAuthorizationHeader } from '@/services'
 import { createSessionCookies, getToken, removeSessionCookies } from '@/utils'
+import { SignUpCredentials } from '@/contexts/AuthContext/AuthContext'
 
 type Props = {
   children: ReactNode
@@ -26,13 +27,27 @@ function AuthProvider(props: Props) {
 
     try {
       const response = await api.post('/user/login', { email, password })
-      const { token, permissions, roles } = response.data
-
+      const { id, token, permissions, roles, userModel } = response.data
       console.log(response.data);
-
       createSessionCookies({ token })
-      setUser({ email, permissions, roles })
+      setUser({ id, userModel, permissions, roles })
       setAuthorizationHeader({ request: api.defaults, token })
+    } catch (error) {
+      const err = error as AxiosError
+      return err
+    }
+  }
+
+  async function signUp(params: SignUpCredentials) {
+    const { email, password } = params
+    const payload = {
+      email: email,
+      password: password,
+      role: 'user'
+    }
+
+    try {
+      await api.post('/user/register', payload)
     } catch (error) {
       const err = error as AxiosError
       return err
@@ -61,11 +76,13 @@ function AuthProvider(props: Props) {
       setLoadingUserData(true)
 
       try {
-        const response = await api.get('/me')
+        if(user?.id) {
+          const response = await api.get('/user/' + user?.id)
 
-        if (response?.data) {
-          const { email, permissions, roles } = response.data
-          setUser({ email, permissions, roles })
+          if (response?.data) {
+            const { id, email, permissions, role } = response.data
+            setUser({ id, email, permissions, role })
+          }
         }
       } catch (error) {
         /**
@@ -89,7 +106,8 @@ function AuthProvider(props: Props) {
         user,
         loadingUserData,
         signIn,
-        signOut
+        signOut,
+        signUp
       }}
     >
       {children}
