@@ -873,7 +873,28 @@ button.ant-btn.upload-preview:hover {
 }
 
 button.ant-btn.upload-preview {
-  background-color: rgba(0,0,0,0.02);
+  background-color: rgba(0,0,0,0.02);.ant-upload {
+    width: calc(var(--ant-control-height-lg) * 2.55);
+    height: calc(var(--ant-control-height-lg) * 2.55);
+    margin-inline-end: var(--ant-margin-xs);
+    margin-bottom: var(--ant-margin-xs);
+    text-align: center;
+    vertical-align: top;
+    background-color: var(--ant-color-fill-alter);
+    border: var(--ant-line-width) dashed var(--ant-color-border);
+    border-radius: var(--ant-border-radius-lg);
+    cursor: pointer;
+    transition: border-color var(--ant-motion-duration-slow);
+}
+
+button.ant-btn.upload-preview:hover {
+    border: 1px solid #1677ff !important;
+}
+
+button.ant-btn.upload-preview {
+    border: 1px solid #d9d9d9;
+    margin-left: 20px;
+}
   border: 1px solid #d9d9d9;
   margin-left: 20px;
 }
