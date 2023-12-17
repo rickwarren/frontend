@@ -5,6 +5,7 @@ import { AuthContext, SignInCredentials, User } from '@/contexts'
 import { paths } from '@/router'
 import { api, setAuthorizationHeader } from '@/services'
 import { createSessionCookies, getToken, removeSessionCookies } from '@/utils'
+import { SignUpCredentials } from '@/contexts/AuthContext/AuthContext'
 
 type Props = {
   children: ReactNode
@@ -26,13 +27,39 @@ function AuthProvider(props: Props) {
 
     try {
       const response = await api.post('/user/login', { email, password })
-      const { token, permissions, roles } = response.data
-
-      console.log(response.data);
-
+      const { id, token, permissions, roles, userModel } = response.data
       createSessionCookies({ token })
-      setUser({ email, permissions, roles })
+      setUser({ id, userModel, permissions, roles })
       setAuthorizationHeader({ request: api.defaults, token })
+    } catch (error) {
+      const err = error as AxiosError
+      return err
+    }
+  }
+
+  async function isUserAuthenticated(t: string) {
+    try {
+      const response = await api.post('http://localhost:3000/user/auth/', { token: t});
+      const { id, userModel, token, permissions, roles } = response.data;
+      createSessionCookies({ token })
+      setUser({ id, userModel, permissions, roles })
+      setAuthorizationHeader({ request: api.defaults, token })
+    } catch (error) {
+      const err = error as AxiosError
+      return err
+    }
+  }
+
+  async function signUp(params: SignUpCredentials) {
+    const { email, password } = params
+    const payload = {
+      email: email,
+      password: password,
+      role: 'user'
+    }
+
+    try {
+      await api.post('/user/register', payload)
     } catch (error) {
       const err = error as AxiosError
       return err
@@ -55,32 +82,26 @@ function AuthProvider(props: Props) {
   }, [navigate, pathname, token])
 
   useEffect(() => {
-    const token = getToken()
-
-    async function getUserData() {
-      setLoadingUserData(true)
-
-      try {
-        const response = await api.get('/me')
-
-        if (response?.data) {
-          const { email, permissions, roles } = response.data
-          setUser({ email, permissions, roles })
-        }
-      } catch (error) {
-        /**
-         * an error handler can be added here
-         */
-      } finally {
-        setLoadingUserData(false)
-      }
-    }
+    const token = getToken();
 
     if (token) {
-      setAuthorizationHeader({ request: api.defaults, token })
-      getUserData()
+      setLoadingUserData(true);
+      setAuthorizationHeader({ request: api.defaults, token });
+      isUserAuthenticated(token);
+      setLoadingUserData(false);
     }
-  }, [])
+  }, [pathname]);
+
+  useEffect(() => {
+    const token = getToken();
+
+    if (token) {
+      setLoadingUserData(true);
+      setAuthorizationHeader({ request: api.defaults, token });
+      isUserAuthenticated(token);
+      setLoadingUserData(false);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -89,7 +110,8 @@ function AuthProvider(props: Props) {
         user,
         loadingUserData,
         signIn,
-        signOut
+        signOut,
+        signUp
       }}
     >
       {children}

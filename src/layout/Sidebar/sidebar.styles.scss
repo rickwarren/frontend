@@ -2,12 +2,13 @@
     background-color: #030303;
     padding: 20px;
     float: left;
-    position: relative;
+    position: fixed;
     top: 0;
     min-height: 100vh;
     padding-top: 0;
     padding-bottom: 0;
     width: 100px;
+    z-index: 99;
 }
 
 .sidebar nav.link-wrapper ul {

@@ -2098,7 +2098,16 @@ ansi-styles@^6.2.1:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-6.2.1.tgz#0e62320cf99c21afff3b3012192546aacbfb05c5"
   integrity sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==
 
-antd@^5.12.1:
+antd-img-crop@^4.18.0:
+  version "4.18.0"
+  resolved "https://registry.npmjs.org/antd-img-crop/-/antd-img-crop-4.18.0.tgz"
+  integrity sha512-K9GJYg0F1tE9Q+TWuHX8QOeH52Z8OA+WAXAUWjJkPHeHAWlnIh538RpuHYgogP7LN4U1qU7TQKRCwkrUPNMdGA==
+  dependencies:
+    compare-versions "6.1.0"
+    react-easy-crop "^5.0.2"
+    tslib "^2.6.2"
+
+antd@^5.12.1, antd@>=4.0.0:
   version "5.12.1"
   resolved "https://registry.npmjs.org/antd/-/antd-5.12.1.tgz"
   integrity sha512-lDTg4U/4MxDD4OK0sLM3D0ge+5nHKj27dUj4ufF1FhQKPcRkVnkCWJ43gb1Cn+S3ybvz7yfsiEv0v+QqWJgPlA==
@@ -2369,6 +2378,11 @@ binary-extensions@^2.0.0:
   resolved "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
+bootstrap@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-4.3.1.tgz"
+  integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
+
 bplist-parser@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/bplist-parser/-/bplist-parser-0.2.0.tgz"
@@ -2592,6 +2606,11 @@ commander@11.1.0:
   version "11.1.0"
   resolved "https://registry.npmjs.org/commander/-/commander-11.1.0.tgz"
   integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
+
+compare-versions@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/compare-versions/-/compare-versions-6.1.0.tgz"
+  integrity sha512-LNZQXhqUvqUTotpZ00qLSaify3b4VFD588aRr8MKFw4CMUr98ytzCW5wDH5qx/DEY5kCDXcbcRuCqL0szEf2tg==
 
 compute-scroll-into-view@^3.0.2:
   version "3.1.0"
@@ -3442,6 +3461,11 @@ globby@^11.1.0:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^3.0.0"
+
+google-protobuf@^3.21.2:
+  version "3.21.2"
+  resolved "https://registry.npmjs.org/google-protobuf/-/google-protobuf-3.21.2.tgz"
+  integrity sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==
 
 gopd@^1.0.1:
   version "1.0.1"
@@ -4302,6 +4326,11 @@ jest@^29.7.0:
     import-local "^3.0.2"
     jest-cli "^29.7.0"
 
+"jquery@1.9.1 - 3":
+  version "3.7.1"
+  resolved "https://registry.npmjs.org/jquery/-/jquery-3.7.1.tgz"
+  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
@@ -4639,6 +4668,11 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
+normalize-wheel@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/normalize-wheel/-/normalize-wheel-1.0.1.tgz"
+  integrity sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==
+
 npm-run-path@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/npm-run-path/-/npm-run-path-4.0.1.tgz"
@@ -4887,10 +4921,16 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postcss@^8.4.32:
-  version "8.4.32"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.32.tgz#1dac6ac51ab19adb21b8b34fd2d93a86440ef6c9"
-  integrity sha512-D/kj5JNu6oo2EIy+XL/26JEDTlIbB8hw85G8StOE6L74RQAVVP5rej6wxCNqyMbR4RkPfqvezVbPw81Ngd6Kcw==
+
+popper.js@^1.14.7:
+  version "1.16.1"
+  resolved "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1.tgz"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
+
+postcss@^8.4.27:
+  version "8.4.29"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.29.tgz"
+  integrity sha512-cbI+jaqIeu/VGqXEarWkRCCffhjgXc0qjBtXpqJhTBohMUjUQnbBr0xqX3vEKudc4iviTewcJo5ajcec5+wdJw==
   dependencies:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
@@ -4952,6 +4992,14 @@ prop-types@^15.8.1:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
     react-is "^16.13.1"
+
+protoscript@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.npmjs.org/protoscript/-/protoscript-0.0.20.tgz"
+  integrity sha512-NuXZgSko5o5o/ngA4/lccAHE7dY2C2ySaRTl+k45ehsjXitoQRXZ4fDAr5yIUadTAV9pZi6jQ0Ao5VQ9SBt0Ew==
+  dependencies:
+    google-protobuf "^3.21.2"
+    prettier "^3.0.3"
 
 proxy-from-env@^1.1.0:
   version "1.1.0"
@@ -5344,6 +5392,14 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-easy-crop@^5.0.2:
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/react-easy-crop/-/react-easy-crop-5.0.3.tgz"
+  integrity sha512-8qb/oR2b7C0Mj3HY1q9ZvlNE0vZPTLcQkSHRjy+NACbCNnZN/ZTUZktRdnoL0RRsxtYpwyosCKMm51Fz5ZnYGA==
+  dependencies:
+    normalize-wheel "^1.0.1"
+    tslib "2.0.1"
 
 react-error-boundary@^4.0.11:
   version "4.0.11"
@@ -5984,6 +6040,16 @@ tslib@^2.5.0, tslib@^2.6.0:
   version "2.6.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.1.tgz"
   integrity sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==
+
+tslib@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.2.tgz"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
+
+tslib@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-2.0.1.tgz"
+  integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
 tsutils@^3.21.0:
   version "3.21.0"

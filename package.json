@@ -26,8 +26,12 @@
   },
   "dependencies": {
     "antd": "^5.12.1",
+    "antd-img-crop": "^4.18.0",
     "axios": "^1.6.2",
+    "bootstrap": "^4.3.1",
+    "dayjs": "^1.11.10",
     "nookies": "^2.5.2",
+    "protoscript": "^0.0.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",

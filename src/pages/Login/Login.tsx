@@ -33,10 +33,10 @@ const tailFormItemLayout = {
 
 function Login() {
   const [loginRequestStatus, setLoginRequestStatus] = useState('success')
-  const { signIn } = useSession()
+  const { signIn, signUp } = useSession()
+
 
   async function handleSubmit(e: FormEvent) {
-    console.log(e);
     const values = {
       email: e.email,
       password: e.password
@@ -70,14 +70,14 @@ function Login() {
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
-    height: 'auto',
     padding: 48,
     overflow: 'hidden',
     textAlign: 'center',
   };
 
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+    signUp({ email: values.email, password: values.password})
+    setOpen(false);
   };
 
   const [form] = Form.useForm();

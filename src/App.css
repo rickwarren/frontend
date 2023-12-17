@@ -55,3 +55,7 @@ body {
 body {
   margin: 0;
 }
+
+.content-wrapper {
+  min-height: 85vh;
+}
