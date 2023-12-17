@@ -1,5 +1,3 @@
-import * as protoscript from 'protoscript';
-
 export class UpdateProfileDto {
   constructor(
     data: any
@@ -46,6 +44,6 @@ export class UpdateProfileDto {
   language: string;
   mobilePhone: string;
   visibility: string;
-  createdAt: protoscript.Timestamp;
-  updatedAt: protoscript.Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }

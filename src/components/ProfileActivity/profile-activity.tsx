@@ -8,6 +8,8 @@ import { Button, Form, FormInstance, Input, UploadFile, UploadProps } from 'antd
 import Upload, { RcFile } from 'antd/es/upload';
 import ImgCrop from 'antd-img-crop';
 import { UploadRequestOption } from 'rc-upload/lib/interface';
+import { ProfileDetails } from '../ProfileDetails';
+import { ProfileCarousel } from '@/components/ProfileCarousel';
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
@@ -34,17 +36,15 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
   };
 
 const ProfileActivity: React.FC = (props: any) => {
-    const fileInputRef = useRef<HTMLInputElement>();
     const [form] = Form.useForm();
     const [posts, setPosts] = useState<any>();
     const { user } = useSession();
-    const [image, setImage] = useState<File>();
-    const [preview, setPreview] = useState<string>();
+    const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     
-    const onChange: UploadProps['onChange'] = ({ event, file, fileList: newFileList }) => {
+    const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
-        console.log(newFileList);
+        setImage(file.originFileObj);
     };
     
     const onPreview = async (file: UploadFile) => {
@@ -56,23 +56,28 @@ const ProfileActivity: React.FC = (props: any) => {
             reader.onload = () => resolve(reader.result as string);
           });
         }
-        const image = new Image();
-        image.src = src;
+        const img = new Image();
+        img.src = src;
         const imgWindow = window.open(src);
         imgWindow?.document.write(image.outerHTML);
     };
 
     const onFinish = async (values: any) => {
         if(values.message.length > 1) {
-            if(preview) {
-                const response = await storeImage(preview);
-                console.log(response);  
-            //    values.attachment = image;
+            if(image) {
+                const response = await storeImage(image);
+                console.log(response);
+                if(response) {
+                    values.attachment = response;
+                }
             }
+            console.log(values);
             await createPost(values);
             form.resetFields();
             form.setFieldsValue({ authorId: user?.userModel.id, locationId: user?.userModel.profile.id });
             retrievePosts();
+            setFileList([]);
+            setImage(null);
         }
     }
 
@@ -104,7 +109,6 @@ const ProfileActivity: React.FC = (props: any) => {
                 post.author = await getUser(post.authorId);
                 return post;
             }));
-            console.log(result);
             setPosts(result);
         } catch(e) {
             console.log(e);
@@ -115,104 +119,75 @@ const ProfileActivity: React.FC = (props: any) => {
         retrievePosts();
         form.setFieldsValue({ authorId: user?.userModel.id, locationId: user?.userModel.profile.id });
     }, []);
-    
-    useEffect(() => {
-        if (image) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPreview(reader.result as string);
-          };
-          reader.readAsDataURL(image);
-        } else {
-          setPreview(undefined)
-        }
-      }, [image]);
-        
 
     return (
         <>
-            <div className="card social-timeline-card newpost">
-                <div className="card-body">
-                <div className="comments-input-wrapper">
-                <Form
-                    name="post"
-                    form={form}
-                    onFinish={onFinish}
-                    autoComplete="off"
-                >
-                    <div className="comments-input">
-                        <div className="mr-2">
-                            <img className="rounded-circle" width="25" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+        <div className="col-lg-5 left-sidebar">
+                <ProfileDetails />
+                <ProfileCarousel />
+            </div>
+            <div className="col-lg-7 gedf-main">
+                <div className="card social-timeline-card newpost">
+                    <div className="card-body">
+                    <div className="comments-input-wrapper">
+                    <Form
+                        name="post"
+                        form={form}
+                        onFinish={onFinish}
+                        autoComplete="off"
+                    >
+                        <div className="comments-input">
+                            <div className="mr-2">
+                                <img className="rounded-circle" width="25" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                            </div>
+                            <div className="ml-2">
+                            <Form.Item
+                                name="message"
+                                rules={[{ required: true }]}
+                            >
+                                <Input.TextArea {...sharedProps} /> 
+                            </Form.Item>
+                            <Form.Item
+                                name="authorId"
+                            >
+                                <Input {...authorIdProps} /> 
+                            </Form.Item>
+                            <Form.Item
+                                name="locationId"
+                            >
+                                <Input {...locationIdProps} /> 
+                            </Form.Item>
+                            </div>
+                        <ImgCrop rotationSlider>
+                            <Upload
+                                action="http://localhost:3000/post/upload"
+                                listType="picture-card"
+                                fileList={fileList}
+                                onChange={onChange}
+                                onPreview={onPreview}
+                            >
+                                {fileList.length < 1 && '+ Upload'}
+                            </Upload>
+                            </ImgCrop>
+                        <div className="submit-wrapper">
+                            <Form.Item>
+                                <SubmitButton form={form} />
+                            </Form.Item>
                         </div>
-                        <div className="ml-2">
-                        <Form.Item
-                            name="message"
-                            rules={[{ required: true }]}
-                        >
-                            <Input.TextArea {...sharedProps} /> 
-                        </Form.Item>
-                        <Form.Item
-                            name="authorId"
-                        >
-                            <Input {...authorIdProps} /> 
-                        </Form.Item>
-                        <Form.Item
-                            name="locationId"
-                        >
-                            <Input {...locationIdProps} /> 
-                        </Form.Item>
-                        </div>
-                        <Form.Item
-                            name="attachment"
-                        >
-                            {preview ? (
-                                <img src={preview} className="upload-preview" alt={"preview"} style={{ objectFit: "cover" }} />
-                            ) : (
-                            <>
-                                <Button 
-                                    className="upload-preview"
-                                    onClick={(event) => {
-                                        event.preventDefault();
-                                        fileInputRef?.current?.click();
-                                    }}
-                                >
-                                + Upload
-                                </Button>
-                            <input type="file" style={{ display: "none" }} 
-                                className="upload-preview"
-                                ref={fileInputRef}
-                                accept="image/*"
-                                onChange={(event: any) => {
-                                  const file = event.target.files[0];
-                                  if (file && file.type.substr(0, 5) === "image") {
-                                    setImage(file);
-                                  } else {
-                                    setImage(undefined);
-                                  }
-                                }} 
-                            />
-                          </>
-                            )}
-                        </Form.Item>
-                    <div className="submit-wrapper">
-                        <Form.Item>
-                            <SubmitButton form={form} />
-                        </Form.Item>
+                    </div>
+                    </Form>  
+                    </div>  
                     </div>
                 </div>
-                </Form>  
-                </div>  
-                </div>
+                {
+                posts ? posts?.map((post: any) => {
+                return (
+                    <div key={post.id} className="post-wrapper">
+                        <Post post={post} retrievePosts={retrievePosts} />
+                    </div>
+                )
+                }) : ''}
             </div>
-            {
-            posts ? posts?.map((post: any) => {
-                console.log(post);
-            return (
-                <div key={post.id} className="post-wrapper">
-                    <Post post={post} retrievePosts={retrievePosts} />
-                </div>
-            )
-            }) : ''}
         </>
     );
 }

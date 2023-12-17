@@ -28,7 +28,19 @@ function AuthProvider(props: Props) {
     try {
       const response = await api.post('/user/login', { email, password })
       const { id, token, permissions, roles, userModel } = response.data
-      console.log(response.data);
+      createSessionCookies({ token })
+      setUser({ id, userModel, permissions, roles })
+      setAuthorizationHeader({ request: api.defaults, token })
+    } catch (error) {
+      const err = error as AxiosError
+      return err
+    }
+  }
+
+  async function isUserAuthenticated(t: string) {
+    try {
+      const response = await api.post('http://localhost:3000/user/auth/', { token: t});
+      const { id, userModel, token, permissions, roles } = response.data;
       createSessionCookies({ token })
       setUser({ id, userModel, permissions, roles })
       setAuthorizationHeader({ request: api.defaults, token })
@@ -70,34 +82,26 @@ function AuthProvider(props: Props) {
   }, [navigate, pathname, token])
 
   useEffect(() => {
-    const token = getToken()
-
-    async function getUserData() {
-      setLoadingUserData(true)
-
-      try {
-        if(user?.id) {
-          const response = await api.get('/user/' + user?.id)
-
-          if (response?.data) {
-            const { id, email, permissions, role } = response.data
-            setUser({ id, email, permissions, role })
-          }
-        }
-      } catch (error) {
-        /**
-         * an error handler can be added here
-         */
-      } finally {
-        setLoadingUserData(false)
-      }
-    }
+    const token = getToken();
 
     if (token) {
-      setAuthorizationHeader({ request: api.defaults, token })
-      getUserData()
+      setLoadingUserData(true);
+      setAuthorizationHeader({ request: api.defaults, token });
+      isUserAuthenticated(token);
+      setLoadingUserData(false);
     }
-  }, [])
+  }, [pathname]);
+
+  useEffect(() => {
+    const token = getToken();
+
+    if (token) {
+      setLoadingUserData(true);
+      setAuthorizationHeader({ request: api.defaults, token });
+      isUserAuthenticated(token);
+      setLoadingUserData(false);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider

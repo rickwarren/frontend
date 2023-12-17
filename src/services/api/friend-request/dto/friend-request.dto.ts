@@ -14,6 +14,6 @@ export class FriendRequestDto {
   requesterId: string;
   addresseId: string;
   status: string;
-  createdAt: protoscript.Timestamp;
-  updatedAt: protoscript.Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }

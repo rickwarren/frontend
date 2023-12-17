@@ -18,6 +18,6 @@ export class UserDto {
   role: string;
   permissions: string[];
   profile?: any;
-  createdAt?: protoscript.Timestamp;
-  updatedAt?: protoscript.Timestamp;
+  createdAt?: string;
+  updatedAt?: string;
 }

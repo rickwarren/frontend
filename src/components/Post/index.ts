@@ -1,1 +1,1 @@
-export { default as Post } from './post.tsx';
+export { default as Post } from './post';

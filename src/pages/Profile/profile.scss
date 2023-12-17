@@ -57,18 +57,18 @@ body {
 }
 
 .social-prof .wrapper {
-    width: 70%;
+    width: auto;
     margin: auto;
     margin-top: -100px;
 }
 
 .social-prof img {
-    width: 150px;
-    height: 150px;
+    width: 168px;
+    height: 168px;
     border-radius: 50%;
     margin-bottom: 20px;
     border: 5px solid #fff;
-    /*border: 10px solid #70b5e6ee;*/
+    float: left;
 }
 
 .social-prof h3 {
@@ -383,7 +383,7 @@ a {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.container > div.img {
+.container > .wrapper > .heading > div.img {
     background-image: linear-gradient(150deg, rgba(63, 174, 255, .3)15%, rgba(63, 174, 255, .3)70%, rgba(63, 174, 255, .3)94%), url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);
     max-height: 350px;
     background-size: cover;
@@ -391,6 +391,102 @@ a {
 
 .container {
     max-width: unset !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
+
+span.ant-upload-wrapper {
+    width: auto !important;
+}
+
+span.attachment img.attachment {
+    width: 100%;
+}
+
+.container > .wrapper > .heading > div.img {
+    max-width: 1250px;
+    display: block;
+    margin: auto;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: 66px;
+}
+
+.container .row {
+    max-width: 1218px;
+    margin: auto;
+}
+
+.card.social-prof {
+    max-width: 1218px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.container > wrapper > div.img {
+    box-shadow: 0 10px 20px 0 rgba(26, 44, 57, 0.14);
+}
+
+.col-lg-3.left-sidebar {
+    padding-left: 0;
+}
+
+.col-lg-3.right-sidebar {
+    padding-right: 0;
+}
+
+.container > .wrapper > .heading {
+    background: linear-gradient(to top, #FFFFFF, rgba(255,255,255.9), rgba(255,255,255,.7), rgba(255,255,255,.4), rgba(255,255,255,0));
+}
+
+.container > .wrapper {
+    background-color: rgb(215 215 215);
+    width: 100%;
+}
+
+.card.social-prof {
+    padding-bottom: 0;
+}
+
+.card.social-prof {
+    box-shadow: none;
+    background: transparent;
+}
+
+.container > .wrapper {
+    box-shadow: 0 10px 20px 0 rgba(26, 44, 57, 0.14);
+    margin-bottom: 35px;
+}
+
+.card.social-prof {
+    box-shadow: none;
+    background: transparent;
+}
+
+.container > .wrapper {
+    box-shadow: 0 10px 20px 0 rgba(26, 44, 57, 0.14);
+    margin-bottom: 35px;
+}
+
+.card-body > .row {
+    clear: both;
+    float: left;
+}
+
+.card-body {
+    padding:  0 !important;
+}
+
+.social-prof .details {
+    float: left;
+    margin-top: 75px;
+    margin-left: 20px;
+}
+
+.card-body > .wrapper {
+    float: left;
+    width: auto;
+}
+
 
 /*end social*/

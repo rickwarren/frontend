@@ -10,23 +10,37 @@ const ProfileDetails: React.FC = (props: any) => {
            <div className="card">
                 <div className="card-body">
                     <div className="h5 text-blue">@{user?.userModel.profile.firstName}{user?.userModel.profile.lastName}</div>
-                    <div className="h7 "><strong>Name :</strong> {user?.userModel.profile.firstName} {user?.userModel.profile.lastName}</div>
-                    <div className="h7"><strong>About :</strong> Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js, etc.
-                    </div>
+                    <div className="h7"><strong>About :</strong> Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js, etc.</div>
                 </div>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                        <div className="h6 text-muted">Followers</div>
-                        <div className="h5">5.2342</div>
-                    </li>
-                    <li className="list-group-item">
-                        <div className="h6 text-muted">Following</div>
-                        <div className="h5">6758</div>
-                    </li>
-                    <li className="list-group-item">
-                        <div className="h6 text-muted">Friends</div>
-                        <div className="h5">6758</div>
-                    </li>
+                    { user?.userModel?.profile?.city ? ( 
+                        <>
+                            <li className="list-group-item">
+                                <i className="fa-solid fa-home" /> lives in {user?.userModel?.profile?.city}
+                            </li>
+                        </>
+                    ) : null }
+                    { user?.userModel?.profile?.hometown ? ( 
+                        <>
+                            <li className="list-group-item">
+                                <i className="fa-solid fa-location-dot" /> from {user?.userModel?.profile?.hometown}
+                            </li>
+                        </>
+                    ) : null }
+                    { user?.userModel?.profile?.employer ? ( 
+                        <>
+                            <li className="list-group-item">
+                                <i className="fa-solid fa-suitcase" /> works at {user?.userModel?.profile?.employer}
+                            </li>
+                        </>
+                    ) : null }
+                    { user?.userModel?.profile?.relationshipStatus ? ( 
+                        <>
+                            <li className="list-group-item">
+                                <i className="fa-solid fa-heart" /> is {user?.userModel?.profile?.relationshipStatus}
+                            </li>
+                        </>
+                    ) : null }
                 </ul>
             </div>
         </>

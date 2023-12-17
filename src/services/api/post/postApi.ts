@@ -1,6 +1,7 @@
 import { api } from '@/services';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CreatePostDto } from './dto/create-post.dto';
+import { UploadFile } from 'antd';
 
 async function getPosts(locationId: string) {
     const response = await api.get('http://localhost:3000/post/all/' + locationId);
@@ -27,10 +28,19 @@ async function deletePost(postId: string) {
     return response.data;
 }
 
-async function storeImage(i: string) {
-    const data = { image: i };
-    const response = await api.post('http://localhost:3000/post/upload', data);
-    return response;
+async function storeImage(data: File) {
+    let formData = new FormData();
+    formData.append("file", data);
+    const response = await api.post("http://localhost:3000/post/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if(response.status === 201) {
+        return response.data;
+    } else {
+        return null;
+    }
 }
 
 export {

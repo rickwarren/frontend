@@ -46,6 +46,6 @@ export class ProfileDto {
   language: string;
   mobilePhone: string;
   visibility: string;
-  createdAt: protoscript.Timestamp;
-  updatedAt: protoscript.Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }

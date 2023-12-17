@@ -12,6 +12,6 @@ export class PermissionsDto {
   id: string;
   userId: string;
   permission: string;
-  createdAt: protoscript.Timestamp;
-  updatedAt: protoscript.Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }

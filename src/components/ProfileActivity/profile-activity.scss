@@ -383,7 +383,7 @@ a {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.container > div.img {
+.container > .wrapper > .heading > div.img {
     background-image: linear-gradient(150deg, rgba(63, 174, 255, .3)15%, rgba(63, 174, 255, .3)70%, rgba(63, 174, 255, .3)94%), url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);
     height: 350px;
     background-size: cover;
@@ -789,6 +789,7 @@ button.card-link:focus {
 .submit-wrapper button.ant-btn {
   margin-bottom: 10px;
   margin-right: 10px;
+  bottom: -10px;
 }
 
 .comments-input {
@@ -837,15 +838,23 @@ span.ant-upload-wrapper {
 .submit-wrapper {
   position: absolute;
   left: 50px;
-  bottom: 30px;
+  bottom: 20px;
   margin-left: 10px;
 }
 
 .comment-submit-wrapper {
-  /* position: absolute; */
-  margin-left: 50px;
+  position: absolute;
+  left: 50px;
+  bottom: -5px;
 }
 
+span.ant-upload-wrapper {
+  width: auto !important;
+}
+
+span.attachment img.attachment {
+  width: 100%;
+}
 
 img.upload-preview,
 button.upload-preview {
@@ -898,3 +907,47 @@ button.ant-btn.upload-preview {
   border: 1px solid #d9d9d9;
   margin-left: 20px;
 }
+
+span.attachment {
+  display: block;
+}
+
+span.ant-upload-wrapper {
+  width: auto !important;
+}
+
+span.post-attachment img.attachment {
+  width: 100%;
+  max-width: 100%;
+}
+span.comment-attachment img.attachment {
+  width: 50%;
+  max-width: 50%;
+}
+
+span.card-text {
+  padding: 1.25rem;
+  display: block;
+}
+
+.card-body {
+  text-align: left;
+}
+
+button.card-link {
+  margin: auto;
+}
+
+.card-footer {
+  text-align: center;
+  display: inline-flex;
+}
+
+ul.list-group.list-group-flush {
+  text-align: left;
+}
+
+li.list-group-item {
+  padding-left: 0;
+}
+

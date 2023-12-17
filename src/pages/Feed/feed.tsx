@@ -1,16 +1,20 @@
 import React from 'react';
 import './feed.scss';
+import { useSession } from '@/hooks';
 
 const Feed: React.FC = (props: any) => {
+    const { user } = useSession();
+    console.log(user);
+
     return (
         <>
             <div className="row">
-                <div className="col-lg-3">
+                <div className="col-lg-5">
                     <div className="card">
                         
                     </div>
                 </div>
-                <div className="col-lg-6 gedf-main">
+                <div className="col-lg-7 gedf-main">
                     <div className="card social-timeline-card">
                         <div className="card-header">
                             <ul className="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -193,11 +197,6 @@ const Feed: React.FC = (props: any) => {
                             <a href="#/" className="card-link"><i className="fa fa-mail-forward"></i> Share</a>
                         </div>
                     </div>              
-                </div>
-                <div className="col-lg-3">
-                    <div className="card social-timeline-card">
-                        
-                    </div>
                 </div>
             </div>
         </>

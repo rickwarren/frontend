@@ -17,7 +17,7 @@ nav.header-link-wrapper {
 }
 
 nav.header-link-wrapper {
-    position: relative;
+    position: absolute;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
@@ -30,6 +30,10 @@ nav.header-link-wrapper {
     border-radius: 0.25rem;
     margin-bottom: 20px;
     box-shadow: 0 5px 10px 0 rgba(26, 44, 57, 0.14);
+    top: 0;
+    right: 0;
+    width: 100%;
+    min-height: 66px;
 }
 
 nav ul {

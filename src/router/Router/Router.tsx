@@ -3,7 +3,7 @@ import { useRoutePaths } from '@/hooks'
 import { Events, Feed, Friends, Groups, Login, NoMatch, MyProfile } from '@/pages'
 import { PrivateRoute } from '../PrivateRoute'
 import { PublicRoute } from '../PublicRoute'
-import { ProfileActivity, ProfileFriends, ProfilePhotos, ProfileVideos } from '@/components'
+import { ProfileAbout, ProfileActivity, ProfileFriends, ProfilePhotos, ProfileVideos } from '@/components'
 import Profile from '@/pages/Profile/profile'
 
 
@@ -14,6 +14,7 @@ function Router() {
     PROFILE_PATH,
     USER_PROFILE_PATH,
     PROFILE_ACTIVITY_PATH,
+    PROFILE_ABOUT_PATH,
     PROFILE_FRIENDS_PATH,
     PROFILE_PHOTOS_PATH,
     PROFILE_VIDEOS_PATH,
@@ -69,6 +70,14 @@ function Router() {
           element={
             <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
               <ProfileActivity />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_ABOUT_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileAbout />
             </PrivateRoute>
           }
         />

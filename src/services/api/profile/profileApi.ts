@@ -18,6 +18,7 @@ async function createProfile(data: CreateProfileDto) {
 }
 
 async function updateProfile(data: UpdateProfileDto) {
+    console.log(data);
     const response = await api.put('http://localhost:3000/profile/', data);
     return response.data;
 }
