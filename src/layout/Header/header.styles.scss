@@ -43,3 +43,37 @@ nav ul {
 .header-link-wrapper a.ant-dropdown-trigger {
     padding-bottom: 20px;
 }
+
+aside.ant-layout-sider.ant-layout-sider-dark {
+    float: left;
+    margin-top: 100px;
+    min-height: 90vh;
+    max-height: 100%;
+}
+
+.trigger {
+    width: 32px;
+    height: 32px;
+    z-index: 999;
+}
+
+button.ant-btn.css-dev-only-do-not-override-6j9yrn.ant-btn-text.ant-btn-icon-only.trigger:focus-visible {
+    outline: 0;
+}
+
+button.trigger {
+    position: absolute;
+    left: 25px;
+    top: 25px;
+}
+
+ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.ant-menu-inline-collapsed {
+    width: 0;
+}
+
+span.ant-layout-sider-zero-width-trigger.ant-layout-sider-zero-width-trigger-left {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 1;
+}

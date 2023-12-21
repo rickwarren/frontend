@@ -1,37 +1,51 @@
-import React from 'react';
+import { useSession } from '@/hooks';
+import { getPhotos } from '@/services/api/photo';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ProfileCarousel: React.FC = (props: any) => {
+    const { user } = useSession();
+    const [photos, setPhotos] = useState<string[]>([]);
+
+    const retrievePhotos = async () => {
+        if(user) {
+            const photoList = await getPhotos(user.id);
+            if(photoList) {
+                const list = photoList.map((photo) => {
+                    return 'http://localhost:3000/upload/' + photo.localFileId;
+                });
+                const photosList = [];
+                for(let i = 0; i < 9; i++) {
+                    photosList.push(list[i]);
+                }
+                setPhotos(photosList);
+            }
+        }
+    }
+
+    useEffect(() => {
+        retrievePhotos();
+    }, []);
+
     return (
         <>
-            <div className="card">
+            <div className="card latest-photos">
                 <div className="card-body">
-                    <h3 className="card-title">Latest Photos</h3>
-                    <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                        <ol className="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" className=""></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1" className=""></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2" className="active"></li>
-                        </ol>
-                        <div className="carousel-inner">
-                            <div className="carousel-item">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" className="d-block w-100" alt="..."/>
-                            </div>
-                            <div className="carousel-item">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" className="d-block w-100" alt="..."/>
-                            </div>
-                            <div className="carousel-item active">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" className="d-block w-100" alt="..."/>
-                            </div>
-                        </div>
-                        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span className="sr-only">Previous</span>
-                        </a>
-                        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span className="sr-only">Next</span>
-                        </a>
+                    <div className="latest-photos-title">
+                        <h3>Latest Photos</h3>
+                        <span className="link-to-photos">
+                            <Link to="photos">See all photos</Link>
+                        </span>
                     </div>
+                    <ul className="photos-list">
+                        { photos.map((photo) => (
+                            <>
+                                <li className="photos-item">
+                                    <img src={photo} className="photos-img" />
+                                </li>
+                            </>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </>

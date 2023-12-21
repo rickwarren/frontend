@@ -949,5 +949,47 @@ ul.list-group.list-group-flush {
 
 li.list-group-item {
   padding-left: 0;
+  border: 0;
+}
+
+li.list-group-item {
+  max-width: 40%;
+  display: inline-block;
+}
+
+ul.list-group.list-group-flush {
+  display: inline-block;
+}
+
+li.list-group-item:nth-child(odd) {
+  margin-right: 50px;
+}
+
+ul.photos-list {
+  list-style-type: none;
+  display: inline-block;
+  padding-left: 0;
+}
+
+img.photos-img {
+  width: 125px;
+  height: 125px;
+}
+
+li.photos-item {
+  display: inline-block;
+}
+
+span.link-to-photos {
+  float: right;
+  display: inline-block;
+}
+
+.latest-photos-title h3 {
+  display: inline-block;
+}
+
+.latest-photos-title {
+  margin-bottom: 1.25rem;
 }
 

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './profile.scss';
 import '../../styles/bootstrap.min.css';
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useSession } from '@/hooks';
-import { ProfileDetails } from '@/components/ProfileDetails';
-import { ProfileCarousel } from '@/components/ProfileCarousel';
-import { ProfilePeople } from '@/components/ProfilePeople';
-import { getPosts, storeImage } from '@/services/api/post';
+import { getPosts } from '@/services/api/post';
 import { PostDto } from '@/services/api/post/dto/post.dto';
 import { UploadFile, UploadProps } from 'antd';
 import Upload, { RcFile } from 'antd/es/upload';
@@ -14,20 +11,20 @@ import { getProfile, updateProfile } from '@/services/api/profile';
 import ImgCrop from 'antd-img-crop';
 import { ProfileDto } from '@/services/api/profile/dto/profile.dto';
 import { dateToYYYYMMDD_HHMM, formatDate } from '@/utils/date';
+import { createLocalFile } from '@/services/api/local-file';
 
-function Profile() {
-    const { params } = useParams();
-    console.log(params);
+const Profile: React.FC = (props: any) => {
     let { user } = useSession();
+    const navigate = useNavigate();
     const [posts, setPosts] = useState<PostDto[]>();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([
         {
             uid: '-1',
-            name: 'image.png',
+            name: '',
             status: 'done',
-            url: '',
-          },
+            url: 'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto,
+        },
     ]);
     
     const onChange: UploadProps['onChange'] = async ({ file, fileList: newFileList }) => {
@@ -36,10 +33,9 @@ function Profile() {
         if(user) {
             const profile: ProfileDto = await getProfile(user.id);
             if(image) {
-                const response = await storeImage(image);
-                console.log(response);
+                const response = await createLocalFile(image);
                 if(response) {
-                    profile.profilePhoto = response;
+                    profile.profilePhoto = response.id;
                     const ud = new Date(profile.updatedAt);
                     profile.updatedAt = dateToYYYYMMDD_HHMM(ud);
                     const cd = new Date(profile.createdAt);
@@ -61,7 +57,7 @@ function Profile() {
           });
         }
         const img = new Image();
-        img.src = src;
+        img.setAttribute('src', src);
         const imgWindow = window.open(src);
         imgWindow?.document.write(image.outerHTML);
     };
@@ -86,21 +82,26 @@ function Profile() {
     <div className="container">
         <div className="wrapper">
             <div className="heading">
-                <div className="img" style={{/*    background-image: linear-gradient(150deg, rgba(63, 174, 255, .3)15%, rgba(63, 174, 255, .3)70%, rgba(63, 174, 255, .3)94%), url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);height: 350px;background-size: cover;*/}}></div>
+                <div className="img"></div>
                 <div className="card social-prof">
                     <div className="card-body">
                         <div className="wrapper">
-                            <ImgCrop rotationSlider>
-                                <Upload
-                                    action="http://localhost:3000/post/upload"
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onChange={onChange}
-                                    onPreview={onPreview}
-                                >
-                                    {fileList.length < 1 && '+ Upload'}
-                                </Upload>
-                            </ImgCrop>
+                            <div className="rotate-profile">
+                                <div className="prof-card">
+                                    <ImgCrop rotationSlider cropShape="round">
+                                        <Upload
+                                            action="http://localhost:3000/post/upload"
+                                            listType="picture-card"
+                                            fileList={fileList}
+                                            onChange={onChange}
+                                            onPreview={onPreview}
+                                        >
+                                            {fileList.length < 1 && '+ Upload'}
+                                        </Upload>
+                                    </ImgCrop>
+                                    <img src="./src/assets/coca-cola-4.svg" className="profile-back" />
+                                </div>
+                            </div>
                             <div className="details">
                                 <h3>{user?.userModel?.profile?.firstName} {user?.userModel?.profile?.lastName}</h3>
                                 <p>{user?.userModel?.profile?.profession}</p>
@@ -109,13 +110,13 @@ function Profile() {
                         <div className="row ">
                             <div className="col-lg-12">
                                 <ul className=" nav nav-tabs justify-content-center s-nav">
-                                    <li><Link className="active" to="activity">Timeline</Link></li>
-                                    <li><Link to="about">About</Link></li>
-                                    <li><Link to="friends">Friends</Link></li>
-                                    <li><Link to="photos">Photos</Link></li>
-                                    <li><Link to="videos">Videos</Link></li> 
-                                    <li><Link to="followers">Followers</Link></li>
-                                    <li><Link to="following">Following</Link></li>
+                                    <li><Link className={ location.pathname === 'activity' ? 'active' : '' } to="activity">Timeline</Link></li>
+                                    <li><Link className={ location.pathname === 'about' ? 'active' : '' } to="about">About</Link></li>
+                                    <li><Link className={ location.pathname === 'friends' ? 'active' : '' } to="friends">Friends</Link></li>
+                                    <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li>
+                                    <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li> 
+                                    <li><Link className={ location.pathname === 'followers' ? 'active' : '' } to="followers">Followers</Link></li>
+                                    <li><Link className={ location.pathname === 'following' ? 'active' : '' } to="following">Following</Link></li>
                                 </ul>
                             </div>
                         </div>
