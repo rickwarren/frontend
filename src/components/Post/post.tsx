@@ -6,7 +6,7 @@ import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload';
-import { storeImage } from '@/services/api/post';
+import { createLocalFile } from '@/services/api/local-file';
 
 dayjs.extend(relativeTime);
 
@@ -63,16 +63,16 @@ const Post = (props: any) => {
 
     const post = props.post;
 
+    console.log(post);
+
     const onFinish = async (values: any) => {
         if(values.message.length > 1) {
             if(image) {
-                const response = await storeImage(image);
-                console.log(response);
+                const response = await createLocalFile(image);
                 if(response) {
-                    values.attachment = response;
+                    values.attachment = response.id;
                 }
             }
-            console.log(values);
             await createComment(values);
             form.resetFields();
             form.setFieldsValue({ authorId: user?.userModel.id, postId: post.id });
@@ -116,7 +116,7 @@ const Post = (props: any) => {
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="mr-2">
-                                <img className="rounded-circle" width="45" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                                <img className="rounded-circle" width="45" src={'http://localhost:3000/upload/' + post?.author?.profile?.profilePhoto} alt=""/>
                             </div>
                             <div className="ml-2">
                                 <div className="h5 m-0 text-blue">{post?.author?.profile?.firstName} {post?.author?.profile?.lastName}</div>
@@ -141,7 +141,7 @@ const Post = (props: any) => {
                 <div className="card-body">
                     <span className="card-text">{post.message}</span>
                     {post.attachment ? (
-                        <span className="post-attachment"><img src={post.attachment} className="attachment" /></span>
+                        <span className="post-attachment"><img src={'http://localhost:3000/upload/' + post.attachment} className="attachment" /></span>
                     ) : null }
                 </div>
                 <div className="card-footer">
@@ -156,14 +156,14 @@ const Post = (props: any) => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="mr-2">
-                                        <img className="rounded-circle" width="25" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                                        <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + comment?.author?.profile?.profilePhoto} alt=""/>
                                     </div>
                                     <div className="ml-2">
                                         <div className="h8 m-0 text-blue">{comment?.author?.profile?.firstName} {comment?.author?.profile?.lastName}</div><div className="timestamp h8"><i className="fa-regular fa-clock"></i> {dayjs(comment.createdAt).fromNow(true)} ago</div>
                                         <div className="text-muted">
                                             <span className="card-text">{comment.message}</span>
                                             {comment.attachment ? (
-                                                <span className="comment-attachment"><img src={comment.attachment} className="attachment" /></span>
+                                                <span className="comment-attachment"><img src={'http://localhost:3000/upload/' + comment.attachment} className="attachment" /></span>
                                             ) : null }
                                         </div>
                                     </div>
@@ -178,14 +178,14 @@ const Post = (props: any) => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="mr-2">
-                                        <img className="rounded-circle" width="25" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                                        <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + post.comments[post.comments.length - 1]?.author?.profile?.profilePhoto} alt=""/>
                                     </div>
                                     <div className="ml-2">
                                         <div className="h8 m-0 text-blue">{post.comments[post.comments.length - 1]?.author?.profile?.firstName} {post.comments[post.comments.length - 1]?.author?.profile?.lastName}</div><div className="timestamp h8"><i className="fa-regular fa-clock"></i> {dayjs(post.comments[post.comments.length - 1]?.createdAt).fromNow(true)} ago</div>
                                         <div className="text-muted">
                                             <span className="card-text">{post.comments[post.comments.length - 1]?.message}</span>
                                             {post.comments[post.comments.length - 1]?.attachment ? (
-                                                <span className="comment-attachment"><img src={post.comments[post.comments.length - 1]?.attachment} className="attachment" /></span>
+                                                <span className="comment-attachment"><img src={'http://localhost:3000/upload/' + post.comments[post.comments.length - 1]?.attachment} className="attachment" /></span>
                                             ) : null }
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@ const Post = (props: any) => {
                         >
                             <div className="comments-input">
                                 <div className="mr-2">
-                                    <img className="rounded-circle" width="25" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                                    <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto} alt=""/>
                                 </div>
                                 <div className="ml-2">
                                 <Form.Item

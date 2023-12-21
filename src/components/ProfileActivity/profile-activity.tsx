@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './profile-activity.scss';
 import { useSession } from '@/hooks';
-import { createPost, getPosts, storeImage } from '@/services/api/post/postApi';
+import { createPost, getPosts } from '@/services/api/post/postApi';
 import { getUser } from '@/services/api/user';
 import { Post } from '../Post';
 import { Button, Form, FormInstance, Input, UploadFile, UploadProps } from 'antd';
 import Upload, { RcFile } from 'antd/es/upload';
 import ImgCrop from 'antd-img-crop';
-import { UploadRequestOption } from 'rc-upload/lib/interface';
 import { ProfileDetails } from '../ProfileDetails';
-import { ProfileCarousel } from '@/components/ProfileCarousel';
+import { SupportedCharities } from '../SupportedCharities';
+import CorporateSponsors from '../CorporateSponsors/corporate-sponsors';
+import { createLocalFile } from '@/services/api/local-file';
+import { ProfilePhotosBlock } from '../ProfilePhotosBlock';
+import { ProfileCarousel } from '../ProfileCarousel';
+
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
@@ -65,10 +69,9 @@ const ProfileActivity: React.FC = (props: any) => {
     const onFinish = async (values: any) => {
         if(values.message.length > 1) {
             if(image) {
-                const response = await storeImage(image);
-                console.log(response);
+                const response = await createLocalFile(image);
                 if(response) {
-                    values.attachment = response;
+                    values.attachment = response.id;
                 }
             }
             console.log(values);
@@ -124,6 +127,8 @@ const ProfileActivity: React.FC = (props: any) => {
         <>
         <div className="col-lg-5 left-sidebar">
                 <ProfileDetails />
+                <SupportedCharities />
+                <CorporateSponsors />
                 <ProfileCarousel />
             </div>
             <div className="col-lg-7 gedf-main">
@@ -138,7 +143,7 @@ const ProfileActivity: React.FC = (props: any) => {
                     >
                         <div className="comments-input">
                             <div className="mr-2">
-                                <img className="rounded-circle" width="25" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                                <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto} alt=""/>
                             </div>
                             <div className="ml-2">
                             <Form.Item

@@ -7,6 +7,7 @@ const ProfileAbout: React.FC = (props: any) => {
                 <div className="col-lg-12 gedf-main">
                     <div className="card social-timeline-card newpost">
                         <div className="card-body">
+                            asdf
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,1 @@
+export { default as CorporateSponsors } from './corporate-sponsors';

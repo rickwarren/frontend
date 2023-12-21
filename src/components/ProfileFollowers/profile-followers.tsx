@@ -1,12 +1,15 @@
 import React from 'react';
+import './profile-followers.scss';
+import { ProfilePeople } from '@/components/ProfilePeople';
 
-const ProfilePeople: React.FC = (props: any) => {
-    return (
+
+function ProfileFollowers() {
+	return (
         <>
-            <div className="col-lg-4 gedf-main profile-people">
-           <div className="card social-timeline-card">
+        <div className="col-lg-8 gedf-main profile-followers">
+		<div className="card social-timeline-card">
                 <div className="card-body">
-                    <h5 className="card-title">People you may know</h5>
+                    <h5 className="card-title">Followers (8)</h5>
                     <ul className="friend-list">
                         <li>
                             <div className="left"> 
@@ -83,9 +86,9 @@ const ProfilePeople: React.FC = (props: any) => {
                     </ul>
                 </div>
            </div>
-           </div>
+        </div>
+        <ProfilePeople />
         </>
-    );
+	);
 }
-
-export default ProfilePeople;
+export default ProfileFollowers;
