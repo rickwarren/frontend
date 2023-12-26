@@ -2,7 +2,7 @@ import * as protoscript from "protoscript";
 
 export class UpdateUserDto {
   constructor(
-    data: any;
+    data: any
   ) {
     this.id = data.id;
     this.email = data.email;

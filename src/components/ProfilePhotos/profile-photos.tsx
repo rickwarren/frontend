@@ -14,6 +14,8 @@ import { Button, Upload, UploadProps } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import './profile-photos.scss';
 import { getImageSize } from "react-image-size";
+import { useLocation } from "react-router-dom";
+import { getUserBySlug } from "@/services/api/user";
 
 async function fetchImageSize(url: string) {
     try {
@@ -25,7 +27,11 @@ async function fetchImageSize(url: string) {
 }
 
 function ProfilePhotos() {
+    const [u, setU] = useState<any>();
+    const location = useLocation();
+    const path = location.pathname;
     const { user } = useSession();
+    const patharr = path.split('/');
     const [photos, setPhotos] = useState<any[]>([]);
     const [image, setImage] = useState<any>();
     const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
@@ -38,7 +44,6 @@ function ProfilePhotos() {
         },
         onChange(info: any) {
             if(info) {
-                console.log(info);
                 setImage(info.file.originFileObj);
             }
         },
@@ -49,23 +54,21 @@ function ProfilePhotos() {
             if(response) {
                 if(user) {
                     const photo = {
-                        userId: user.id,
+                        userId: u.id,
                         localFileId: response.id,
                     }
-                    console.log(photo);
                     createPhoto(photo).then((p) => {
-                        retrievePhotos();
+                        retrievePhotos(u);
                     });
                 }
             }
         });
       }
     
-    async function retrievePhotos() {
-        if(user) {
-            const photoList = await getPhotos(user.id);
+    async function retrievePhotos(usr: any) {
+        if(usr) {
+            const photoList = await getPhotos(usr.id);
             if(photoList) {
-                console.log(photoList);
                 const fileList = await Promise.all(photoList.map(async (photo) => {
                     const dimensions = await fetchImageSize('http://localhost:3000/upload/' + photo.localFileId);
                     return { 
@@ -74,7 +77,6 @@ function ProfilePhotos() {
                         height: dimensions?.height,
                     }; 
                 }));
-                console.log(fileList);
                 const photosList = fileList.map((photo) => {
                     const width = breakpoints[0];
                     if(photo.width && photo.height) {
@@ -102,12 +104,20 @@ function ProfilePhotos() {
     }
 
     useEffect(() => {
-        retrievePhotos();
+        if(patharr[1] == 'profile') {
+            getUserBySlug(patharr[2]).then((usr) => {
+                setU(usr);
+                retrievePhotos(usr);
+            });
+        } else {
+            setU(user);
+            retrievePhotos(user);
+        }
     }, []);
 
     useEffect(() => {
         storePhoto();
-        retrievePhotos();
+        retrievePhotos(u);
     }, [image])
 
   const [index, setIndex] = useState(-1);

@@ -943,25 +943,25 @@ button.card-link {
   display: inline-flex;
 }
 
-ul.list-group.list-group-flush {
+.corporate-sponsors ul.list-group.list-group-flush {
   text-align: left;
 }
 
-li.list-group-item {
+.corporate-sponsors li.list-group-item {
   padding-left: 0;
   border: 0;
 }
 
-li.list-group-item {
+.corporate-sponsors li.list-group-item {
   max-width: 40%;
   display: inline-block;
 }
 
-ul.list-group.list-group-flush {
+.corporate-sponsors ul.list-group.list-group-flush {
   display: inline-block;
 }
 
-li.list-group-item:nth-child(odd) {
+.corporate-sponsors li.list-group-item:nth-child(odd) {
   margin-right: 50px;
 }
 
@@ -993,3 +993,10 @@ span.link-to-photos {
   margin-bottom: 1.25rem;
 }
 
+ul.list-group.list-group-flush {
+  text-align: left;
+}
+
+li.list-group-item {
+  padding-left: 0;
+}

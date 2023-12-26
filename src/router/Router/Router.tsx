@@ -54,6 +54,80 @@ function Router() {
         }
       />
       <Route
+        path={USER_PROFILE_PATH}
+        element={
+          <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+            <Profile />
+          </PrivateRoute>
+        }
+      >
+        <Route
+          index
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileActivity />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_ACTIVITY_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileActivity />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_ABOUT_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileAbout />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_FRIENDS_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileFriends />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_PHOTOS_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfilePhotos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_VIDEOS_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileVideos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_FOLLOWERS_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileFollowers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PROFILE_FOLLOWING_PATH}
+          element={
+            <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
+              <ProfileFollowing />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NoMatch />} />
+      </Route>
+      <Route
         path={PROFILE_PATH}
         element={
           <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>

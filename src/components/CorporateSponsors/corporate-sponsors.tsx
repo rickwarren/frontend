@@ -4,7 +4,7 @@ import './corporate-sponsors.scss';
 const CorporateSponsors: React.FC = (props: any) => {
     return (
         <>
-            <div className="card">
+            <div className="corporate-sponsors card">
                 <div className="col-lg-12 gedf-main profile-sponsors">
                     <div className="social-timeline-card">
                         <div className="card-body">

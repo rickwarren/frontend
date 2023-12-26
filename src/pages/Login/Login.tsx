@@ -36,7 +36,7 @@ function Login() {
   const { signIn, signUp } = useSession()
 
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: any) {
     const values = {
       email: e.email,
       password: e.password
