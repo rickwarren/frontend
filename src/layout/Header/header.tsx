@@ -11,7 +11,7 @@ const Header: React.FC = (props: any) => {
         {
             key: '0',
             label: (
-                <Link to="myprofile">My Profile</Link>
+                <Link to="/profile/testuser">My Profile</Link>
             ),
         },
         {
@@ -20,7 +20,7 @@ const Header: React.FC = (props: any) => {
         {
             key: '1',
             label: (
-                <Link to="settings">Settings</Link>
+                <Link to="/myprofile">Settings</Link>
             ),
         },
         {

@@ -11,6 +11,11 @@ async function getUser(userId: string) {
     return response.data;
 }
 
+async function getUserBySlug(urlString: string) {
+    const response = await api.get('http://localhost:3000/user/urlstring/' + urlString);
+    return response.data;
+}
+
 async function updateUser(data: UpdateUserDto) {
     const response = await api.put('http://localhost:3000/user/', data);
     return response.data;
@@ -25,6 +30,7 @@ async function deleteUser(userId: string) {
 export {
     getUsers,
     getUser,
+    getUserBySlug,
     updateUser,
     deleteUser
 }

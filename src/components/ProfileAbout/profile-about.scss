@@ -1,0 +1,56 @@
+.profile-about {
+    width: 60vw;
+    margin: auto;
+}
+
+.ant-tabs-content-holder {
+    padding: 1.25rem;
+}
+
+ul.overview {
+    list-style-type: none;
+}
+
+.profile-about li {padding: 20px;}
+
+
+.profile-about ul .easy-edit-wrapper {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.profile-about {
+    font-size: large;
+}
+
+.ant-tabs-nav-list > div > div {
+    font-size: large;
+}
+
+.profile-about li input[type="text"] {
+    display: inline-block;
+}
+
+.easy-edit-inline-wrapper {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.profile-about svg.svg-inline--fa {
+    display: inline-block;
+}
+
+.profile-about li .easy-edit-wrapper {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+ul.work-history {
+    list-style-type: none;
+    padding-inline-start: 40px;
+}
+
+ul.contact-info {
+    list-style-type: none;
+    padding-inline-start: 40px;
+}

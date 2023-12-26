@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './profile-activity.scss';
 import { useSession } from '@/hooks';
 import { createPost, getPosts } from '@/services/api/post/postApi';
-import { getUser } from '@/services/api/user';
+import { getUser, getUserBySlug } from '@/services/api/user';
 import { Post } from '../Post';
 import { Button, Form, FormInstance, Input, UploadFile, UploadProps } from 'antd';
 import Upload, { RcFile } from 'antd/es/upload';
@@ -11,8 +11,8 @@ import { ProfileDetails } from '../ProfileDetails';
 import { SupportedCharities } from '../SupportedCharities';
 import CorporateSponsors from '../CorporateSponsors/corporate-sponsors';
 import { createLocalFile } from '@/services/api/local-file';
-import { ProfilePhotosBlock } from '../ProfilePhotosBlock';
 import { ProfileCarousel } from '../ProfileCarousel';
+import { useLocation } from 'react-router-dom';
 
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
@@ -42,7 +42,11 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
 const ProfileActivity: React.FC = (props: any) => {
     const [form] = Form.useForm();
     const [posts, setPosts] = useState<any>();
+    const [u, setU] = useState<any>();
+    const location = useLocation();
+    const path = location.pathname;
     const { user } = useSession();
+    const patharr = path.split('/');
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     
@@ -74,11 +78,10 @@ const ProfileActivity: React.FC = (props: any) => {
                     values.attachment = response.id;
                 }
             }
-            console.log(values);
             await createPost(values);
             form.resetFields();
-            form.setFieldsValue({ authorId: user?.userModel.id, locationId: user?.userModel.profile.id });
-            retrievePosts();
+            form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id || user?.userModel?.profile?.id });
+            retrievePosts(u);
             setFileList([]);
             setImage(null);
         }
@@ -97,13 +100,13 @@ const ProfileActivity: React.FC = (props: any) => {
         placeholder: "What's new with you?",
     };
 
-    async function retrievePosts() {
+    async function retrievePosts(usr: any) {
         try {
-            const response = await getPosts(user?.userModel.profile.id);
+            const response = await getPosts(usr?.profile?.id ? usr?.profile?.id : user?.userModel?.profile?.id);
             const result = await Promise.all(response?.map(async(post: any) =>  {
                 post.comments = await Promise.all(post.comments.map(async(comment: any) => {
                     comment.author = await getUser(comment.authorId);
-                    comment.createdAt = new Date(comment.createdAt);
+                    comment.creataedAt = new Date(comment.createdAt);
                     comment.updatedAt = new Date(comment.updatedAt);
                     return comment;
                 }));
@@ -119,8 +122,17 @@ const ProfileActivity: React.FC = (props: any) => {
     }
 
     useEffect(() => {
-        retrievePosts();
-        form.setFieldsValue({ authorId: user?.userModel.id, locationId: user?.userModel.profile.id });
+        if(patharr[1] == 'profile') {
+            getUserBySlug(patharr[2]).then((usr) => {
+                setU(usr);
+                retrievePosts(usr);
+                form.setFieldsValue({ authorId: user?.id, locationId: usr?.profile?.id });
+            });
+        } else {
+            setU(user);
+            retrievePosts(user);
+            form.setFieldsValue({ authorId: user?.id, locationId: user?.userModel?.profile?.id });
+        }
     }, []);
 
     return (
@@ -143,8 +155,8 @@ const ProfileActivity: React.FC = (props: any) => {
                     >
                         <div className="comments-input">
                             <div className="mr-2">
-                                <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto} alt=""/>
-                            </div>
+                                <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + u?.profile ? u?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto} alt=""/>
+                           </div>
                             <div className="ml-2">
                             <Form.Item
                                 name="message"
@@ -155,7 +167,7 @@ const ProfileActivity: React.FC = (props: any) => {
                             <Form.Item
                                 name="authorId"
                             >
-                                <Input {...authorIdProps} /> 
+                                <Input {...authorIdProps} />
                             </Form.Item>
                             <Form.Item
                                 name="locationId"
@@ -184,8 +196,7 @@ const ProfileActivity: React.FC = (props: any) => {
                     </div>  
                     </div>
                 </div>
-                {
-                posts ? posts?.map((post: any) => {
+                { posts ? posts?.map((post: any) => {
                 return (
                     <div key={post.id} className="post-wrapper">
                         <Post post={post} retrievePosts={retrievePosts} />

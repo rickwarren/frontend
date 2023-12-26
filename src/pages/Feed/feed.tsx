@@ -30,7 +30,7 @@ const Feed: React.FC = (props: any) => {
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade active show" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                     <div className="form-group">
-                                        <textarea className="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
+                                        <textarea className="form-control" id="message" rows={3} placeholder="What are you thinking?"></textarea>
                                     </div>
                                 </div>
                                 <div className="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">

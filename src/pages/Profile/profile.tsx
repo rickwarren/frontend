@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './profile.scss';
 import '../../styles/bootstrap.min.css';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useSession } from '@/hooks';
-import { getPosts } from '@/services/api/post';
+import { getUserBySlug } from '@/services/api/user';
 import { PostDto } from '@/services/api/post/dto/post.dto';
 import { UploadFile, UploadProps } from 'antd';
 import Upload, { RcFile } from 'antd/es/upload';
@@ -14,35 +14,29 @@ import { dateToYYYYMMDD_HHMM, formatDate } from '@/utils/date';
 import { createLocalFile } from '@/services/api/local-file';
 
 const Profile: React.FC = (props: any) => {
-    let { user } = useSession();
+    const [u, setU] = useState<any>();
+    const location = useLocation();
+    const path = location.pathname;
+    const { user } = useSession();
+    const patharr = path.split('/');
     const navigate = useNavigate();
-    const [posts, setPosts] = useState<PostDto[]>();
     const [image, setImage] = useState<any>();
-    const [fileList, setFileList] = useState<UploadFile[]>([
-        {
-            uid: '-1',
-            name: '',
-            status: 'done',
-            url: 'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto,
-        },
-    ]);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
     
     const onChange: UploadProps['onChange'] = async ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
-        setImage(file.originFileObj);
-        if(user) {
-            const profile: ProfileDto = await getProfile(user.id);
-            if(image) {
-                const response = await createLocalFile(image);
-                if(response) {
-                    profile.profilePhoto = response.id;
-                    const ud = new Date(profile.updatedAt);
-                    profile.updatedAt = dateToYYYYMMDD_HHMM(ud);
-                    const cd = new Date(profile.createdAt);
-                    profile.createdAt = dateToYYYYMMDD_HHMM(cd);
-                    console.log(profile);
-                    await updateProfile(profile);
-                }
+        setImage(file.originFileObj)
+        const profile: ProfileDto = await getProfile(u?.id ? u?.id : user?.id);
+        if(image) {
+            const response = await createLocalFile(image);
+            if(response) {
+                profile.profilePhoto = response.id;
+                const ud = new Date(profile.updatedAt);
+                profile.updatedAt = dateToYYYYMMDD_HHMM(ud);
+                const cd = new Date(profile.createdAt);
+                profile.createdAt = dateToYYYYMMDD_HHMM(cd);
+                console.log(profile);
+                await updateProfile(profile);
             }
         }
     };
@@ -62,17 +56,30 @@ const Profile: React.FC = (props: any) => {
         imgWindow?.document.write(image.outerHTML);
     };
 
-    async function retrievePosts() {
-        try {
-            const response = await getPosts(user?.userModel?.profile?.id);
-            setPosts(response);
-        } catch(e) {
-            console.log(e);
-        }
-    }
-
     useEffect(() => {
-        retrievePosts();
+        if(patharr[1] === 'profile') {
+            getUserBySlug(patharr[2]).then((usr) => {
+                setU(usr);
+                setFileList([
+                    {
+                        uid: '-1',
+                        name: '',
+                        status: 'done',
+                        url: 'http://localhost:3000/upload/' + usr?.profile ? usr?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto,
+                    },
+                ]);
+            });
+        } else {
+            setU(user);
+            setFileList([
+                {
+                    uid: '-1',
+                    name: '',
+                    status: 'done',
+                    url: 'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto,
+                },
+            ]);
+        }
     }, []);
 
 	return (
@@ -88,6 +95,19 @@ const Profile: React.FC = (props: any) => {
                         <div className="wrapper">
                             <div className="rotate-profile">
                                 <div className="prof-card">
+                                    {u?.profile ? (
+                                        <span className="ant-upload-wrapper css-dev-only-do-not-override-6j9yrn ant-upload-picture-card-wrapper">
+                                            <div className="ant-upload-list ant-upload-list-picture-card">
+                                                <div className="ant-upload-list-item-container">
+                                                    <div className="ant-upload-list-item ant-upload-list-item-done">
+                                                        <a href="#" className="ant-upload-list-item-thumbnail">
+                                                            <img src={'http://localhost:3000/upload/' +u?.profile?.profilePhoto} className="ant-upload-list-item-image" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    ) : (
                                     <ImgCrop rotationSlider cropShape="round">
                                         <Upload
                                             action="http://localhost:3000/post/upload"
@@ -99,12 +119,13 @@ const Profile: React.FC = (props: any) => {
                                             {fileList.length < 1 && '+ Upload'}
                                         </Upload>
                                     </ImgCrop>
+                                    )}
                                     <img src="./src/assets/coca-cola-4.svg" className="profile-back" />
                                 </div>
                             </div>
                             <div className="details">
-                                <h3>{user?.userModel?.profile?.firstName} {user?.userModel?.profile?.lastName}</h3>
-                                <p>{user?.userModel?.profile?.profession}</p>
+                                <h3>{u?.profile ? u?.profile?.firstName : user?.userModel?.profile?.firstName} {u?.profile ? u?.profile?.lastName : user?.userModel?.profile?.lastName}</h3>
+                                <p>{u?.profile ? u?.profile?.profession : user?.userModel?.profile?.profession}</p>
                             </div>
                         </div>
                         <div className="row ">
@@ -115,8 +136,6 @@ const Profile: React.FC = (props: any) => {
                                     <li><Link className={ location.pathname === 'friends' ? 'active' : '' } to="friends">Friends</Link></li>
                                     <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li>
                                     <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li> 
-                                    <li><Link className={ location.pathname === 'followers' ? 'active' : '' } to="followers">Followers</Link></li>
-                                    <li><Link className={ location.pathname === 'following' ? 'active' : '' } to="following">Following</Link></li>
                                 </ul>
                             </div>
                         </div>

@@ -7,6 +7,8 @@ import * as relativeTime from 'dayjs/plugin/relativeTime';
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload';
 import { createLocalFile } from '@/services/api/local-file';
+import { useLocation } from 'react-router-dom';
+import { getUserBySlug } from '@/services/api/user';
 
 dayjs.extend(relativeTime);
 
@@ -37,7 +39,11 @@ const Post = (props: any) => {
     const [form] = Form.useForm();
     const [showComments, setShowComments] = useState<boolean>(false);
     const [like, setLike] = useState<boolean>(false);
+    const [u, setU] = useState<any>();
+    const location = useLocation();
+    const path = location.pathname;
     const { user } = useSession();
+    const patharr = path.split('/');
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     
@@ -63,8 +69,6 @@ const Post = (props: any) => {
 
     const post = props.post;
 
-    console.log(post);
-
     const onFinish = async (values: any) => {
         if(values.message.length > 1) {
             if(image) {
@@ -75,8 +79,8 @@ const Post = (props: any) => {
             }
             await createComment(values);
             form.resetFields();
-            form.setFieldsValue({ authorId: user?.userModel.id, postId: post.id });
-            await props.retrievePosts();
+            form.setFieldsValue({ authorId: user?.id, postId: post.id });
+            await props.retrievePosts(u);
             setFileList([]);
             setImage(null);
         }
@@ -84,7 +88,7 @@ const Post = (props: any) => {
 
     const authorIdProps = {
         hidden: true,
-        initialvalue: user?.userModel.id
+        initialvalue: user?.userModel?.id
      }
 
      const postIdProps = {
@@ -106,7 +110,15 @@ const Post = (props: any) => {
     }
 
     useEffect(() => {
-        form.setFieldsValue({ authorId: user?.userModel.id, postId: post.id });
+        if(patharr[1] === 'profile') {
+            getUserBySlug(patharr[2]).then((usr) => {
+                setU(usr);
+                form.setFieldsValue({ authorId: user?.id, postId: post.id });
+            });
+        } else {
+            setU({ user });
+            form.setFieldsValue({ authorId: user?.id, postId: post.id });
+        }
     }, []);
 
     return (
@@ -120,7 +132,7 @@ const Post = (props: any) => {
                             </div>
                             <div className="ml-2">
                                 <div className="h5 m-0 text-blue">{post?.author?.profile?.firstName} {post?.author?.profile?.lastName}</div>
-                                <div className="text-muted h7"><i className="fa-regular fa-clock"></i> {dayjs(post.createdAt).fromNow(true)} ago</div>
+                                <div className="text-muted h7"><i className="fa-regular fa-clock"></i> {dayjs(post?.createdAt).fromNow(true)} ago</div>
                             </div>
                         </div>
                         <div>
@@ -141,7 +153,7 @@ const Post = (props: any) => {
                 <div className="card-body">
                     <span className="card-text">{post.message}</span>
                     {post.attachment ? (
-                        <span className="post-attachment"><img src={'http://localhost:3000/upload/' + post.attachment} className="attachment" /></span>
+                        <span className="post-attachment"><img src={'http://localhost:3000/upload/' + post?.attachment} className="attachment" /></span>
                     ) : null }
                 </div>
                 <div className="card-footer">
