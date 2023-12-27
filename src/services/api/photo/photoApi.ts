@@ -1,4 +1,4 @@
-import { api } from "@/services/api";
+import { api } from "../../../services/api";
 import { CreatePhotoDto } from "./dto/create-photo.dto";
 import { PhotoDto } from "./dto/photo.dto";
 

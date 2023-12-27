@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 
 async function getPermissions(userId: string) {

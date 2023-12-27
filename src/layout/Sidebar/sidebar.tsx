@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './sidebar.styles.scss';
 import Logo from '../assets/react.svg';
-import { useSession } from '@/hooks';
+import { useSession } from '../../hooks';
 
 const Sidebar: React.FC = (props: any) => {
     const [isVisible, setIsVisible] = useState(true);

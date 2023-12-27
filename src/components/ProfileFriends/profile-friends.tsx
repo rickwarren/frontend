@@ -1,6 +1,6 @@
 import React from 'react';
 import './profile-friends.scss';
-import { ProfilePeople } from '@/components/ProfilePeople';
+import { ProfilePeople } from '../../components/ProfilePeople';
 
 function ProfileFriends() {
 	return (

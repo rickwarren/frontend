@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { CreateFriendListDto } from './dto/create-friend-list.dto';
 
 async function getFriends() {

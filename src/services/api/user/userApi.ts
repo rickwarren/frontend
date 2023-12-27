@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 async function getUsers() {

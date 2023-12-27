@@ -1,12 +1,13 @@
 import { Routes, Route, useNavigation, useNavigate } from 'react-router-dom'
-import { useRoutePaths } from '@/hooks'
-import { Events, Feed, Friends, Groups, Login, NoMatch, MyProfile } from '@/pages'
+import { useRoutePaths } from '../../hooks'
+import { Events, Feed, Friends, Groups, Login, NoMatch, MyProfile } from '../../pages'
 import { PrivateRoute } from '../PrivateRoute'
 import { PublicRoute } from '../PublicRoute'
-import { ProfileAbout, ProfileActivity, ProfileFriends, ProfilePhotos, ProfileVideos } from '@/components'
-import Profile from '@/pages/Profile/profile'
-import { ProfileFollowers } from '@/components/ProfileFollowers'
-import { ProfileFollowing } from '@/components/ProfileFollowing'
+import { ProfileAbout, ProfileActivity, ProfileFriends, ProfilePhotos, ProfileVideos } from '../../components'
+import Profile from '../../pages/Profile/profile'
+import { ProfileFollowers } from '../../components/ProfileFollowers'
+import { ProfileFollowing } from '../../components/ProfileFollowing'
+import React from 'react'
 
 
 function Router() {

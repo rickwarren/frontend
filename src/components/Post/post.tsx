@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Button, Form, FormInstance, Input, Upload, UploadFile, UploadProps } from "antd";
-import { useSession } from '@/hooks';
-import { createComment } from '@/services/api/comment';
+import { useSession } from '../../hooks';
+import { createComment } from '../../services/api/comment';
 import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload';
-import { createLocalFile } from '@/services/api/local-file';
+import { createLocalFile } from '../../services/api/local-file';
 import { useLocation } from 'react-router-dom';
-import { getUserBySlug } from '@/services/api/user';
+import { getUserBySlug } from '../../services/api/user';
+import { useFetchUserQuery } from '../../features/api/api-slice';
 
 dayjs.extend(relativeTime);
 
@@ -44,6 +45,7 @@ const Post = (props: any) => {
     const path = location.pathname;
     const { user } = useSession();
     const patharr = path.split('/');
+    const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     
@@ -110,16 +112,13 @@ const Post = (props: any) => {
     }
 
     useEffect(() => {
+        form.setFieldsValue({ authorId: user?.id, postId: post.id });
         if(patharr[1] === 'profile') {
-            getUserBySlug(patharr[2]).then((usr) => {
-                setU(usr);
-                form.setFieldsValue({ authorId: user?.id, postId: post.id });
-            });
+            setU(data);
         } else {
             setU({ user });
-            form.setFieldsValue({ authorId: user?.id, postId: post.id });
         }
-    }, []);
+    }, [isFetching]);
 
     return (
         <>

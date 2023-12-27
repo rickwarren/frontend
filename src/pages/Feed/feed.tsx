@@ -1,6 +1,6 @@
 import React from 'react';
 import './feed.scss';
-import { useSession } from '@/hooks';
+import { useSession } from '../../hooks';
 
 const Feed: React.FC = (props: any) => {
     const { user } = useSession();

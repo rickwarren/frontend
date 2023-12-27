@@ -9,8 +9,8 @@ import {
 import {
   getToken,
   removeSessionCookies
-} from '@/utils'
-import { paths } from '@/router'
+} from '../utils'
+import { paths } from '../router'
 import { api } from './api'
 
 type FailedRequestQueue = {

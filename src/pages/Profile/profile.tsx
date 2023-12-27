@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import './profile.scss';
 import '../../styles/bootstrap.min.css';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useSession } from '@/hooks';
-import { getUserBySlug } from '@/services/api/user';
-import { PostDto } from '@/services/api/post/dto/post.dto';
+import { useSession } from '../../hooks';
+import { getUserBySlug } from '../../services/api/user';
+import { PostDto } from '../../services/api/post/dto/post.dto';
 import { UploadFile, UploadProps } from 'antd';
 import Upload, { RcFile } from 'antd/es/upload';
-import { getProfile, updateProfile } from '@/services/api/profile';
+import { getProfile, updateProfile } from '../../services/api/profile';
 import ImgCrop from 'antd-img-crop';
-import { ProfileDto } from '@/services/api/profile/dto/profile.dto';
-import { dateToYYYYMMDD_HHMM, formatDate } from '@/utils/date';
-import { createLocalFile } from '@/services/api/local-file';
+import { ProfileDto } from '../../services/api/profile/dto/profile.dto';
+import { dateToYYYYMMDD_HHMM, formatDate } from '../../utils/date';
+import { createLocalFile } from '../../services/api/local-file';
+import { useFetchUserQuery } from '../../features/api/api-slice';
 
 const Profile: React.FC = (props: any) => {
     const [u, setU] = useState<any>();
@@ -19,6 +20,7 @@ const Profile: React.FC = (props: any) => {
     const path = location.pathname;
     const { user } = useSession();
     const patharr = path.split('/');
+    const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
     const navigate = useNavigate();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -58,17 +60,15 @@ const Profile: React.FC = (props: any) => {
 
     useEffect(() => {
         if(patharr[1] === 'profile') {
-            getUserBySlug(patharr[2]).then((usr) => {
-                setU(usr);
-                setFileList([
-                    {
-                        uid: '-1',
-                        name: '',
-                        status: 'done',
-                        url: 'http://localhost:3000/upload/' + usr?.profile ? usr?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto,
-                    },
-                ]);
-            });
+            setU(data);
+            setFileList([
+                {
+                    uid: '-1',
+                    name: '',
+                    status: 'done',
+                    url: 'http://localhost:3000/upload/' + u?.profile ? u?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto,
+                },
+            ]);
         } else {
             setU(user);
             setFileList([
@@ -80,7 +80,7 @@ const Profile: React.FC = (props: any) => {
                 },
             ]);
         }
-    }, []);
+    }, [isFetching]);
 
 	return (
 		<div>
@@ -101,7 +101,7 @@ const Profile: React.FC = (props: any) => {
                                                 <div className="ant-upload-list-item-container">
                                                     <div className="ant-upload-list-item ant-upload-list-item-done">
                                                         <a href="#" className="ant-upload-list-item-thumbnail">
-                                                            <img src={'http://localhost:3000/upload/' +u?.profile?.profilePhoto} className="ant-upload-list-item-image" />
+                                                            <img src={'http://localhost:3000/upload/' + u?.profile?.profilePhoto} className="ant-upload-list-item-image" />
                                                         </a>
                                                     </div>
                                                 </div>
@@ -124,8 +124,12 @@ const Profile: React.FC = (props: any) => {
                                 </div>
                             </div>
                             <div className="details">
-                                <h3>{u?.profile ? u?.profile?.firstName : user?.userModel?.profile?.firstName} {u?.profile ? u?.profile?.lastName : user?.userModel?.profile?.lastName}</h3>
-                                <p>{u?.profile ? u?.profile?.profession : user?.userModel?.profile?.profession}</p>
+                                { isFetching ? '' : (
+                                    <>
+                                        <h3>{u?.profile ? u?.profile?.firstName : user?.userModel?.profile?.firstName} {u?.profile ? u?.profile?.lastName : user?.userModel?.profile?.lastName}</h3>
+                                        <p>{u?.profile ? u?.profile?.profession : user?.userModel?.profile?.profession}</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="row ">

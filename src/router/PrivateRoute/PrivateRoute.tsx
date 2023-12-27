@@ -1,9 +1,10 @@
 import { ReactNode, Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
-import { ErrorState, Loader } from '@/components'
-import { useSession } from '@/hooks'
-import { validateUserPermissions } from '@/utils'
+import { ErrorState, Loader } from '../../components'
+import { useSession } from '../../hooks'
+import { validateUserPermissions } from '../../utils'
+import React from 'react'
 
 type Props = {
   permissions?: string[]

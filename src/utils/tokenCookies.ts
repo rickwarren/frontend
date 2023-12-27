@@ -2,7 +2,7 @@ import { destroyCookie, parseCookies, setCookie } from 'nookies'
 import {
   COOKIE_EXPIRATION_TIME,
   TOKEN_COOKIE
-} from '@/utils'
+} from '../utils'
 
 type CreateSessionCookiesParams = {
   token?: string

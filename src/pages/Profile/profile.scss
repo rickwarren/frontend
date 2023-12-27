@@ -480,7 +480,7 @@ span.attachment img.attachment {
 
 .social-prof .details {
     float: left;
-    margin-top: 75px;
+    margin-top: 100px;
     margin-left: 20px;
 }
 
@@ -619,6 +619,18 @@ span.ant-upload-list-item-actions {
     text-align: center;
     width: 90% !important;
     margin: auto;
+}
+
+.left-sidebar .card {
+    padding: 1.25rem;
+}
+
+img.profile-back {
+    margin-left: 20px;
+}
+
+.col-lg-12 {
+    padding: 0;
 }
 
   /*end social*/
