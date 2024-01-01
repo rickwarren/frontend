@@ -27,7 +27,7 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "antd": "^5.12.1",
+    "antd": "^5.12.6",
     "antd-img-crop": "^4.18.0",
     "axios": "^1.6.2",
     "bootstrap": "^4.3.1",
