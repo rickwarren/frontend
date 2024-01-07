@@ -12,7 +12,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^2.0.1",
     "antd": "^5.12.5",
-    "antd-img-crop": "^4.18.0",
+    "antd-img-crop": "^4.21.0",
     "axios": "^0.21.1",
     "nookies": "^2.5.2",
     "react": "^18.2.0",
