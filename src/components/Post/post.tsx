@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Form, FormInstance, Input, Upload, UploadFile, UploadProps } from "antd";
+import { Badge, Button, Dropdown, Form, FormInstance, Input, MenuProps, Space, Upload, UploadFile, UploadProps } from "antd";
 import { useSession } from '../../hooks';
 import { createComment } from '../../services/api/comment';
 import * as dayjs from 'dayjs';
@@ -8,7 +8,6 @@ import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload';
 import { createLocalFile } from '../../services/api/local-file';
 import { useLocation } from 'react-router-dom';
-import { getUserBySlug } from '../../services/api/user';
 import { useFetchUserQuery } from '../../features/api/api-slice';
 
 dayjs.extend(relativeTime);
@@ -35,6 +34,26 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
       </Button>
     );
   };
+
+  const onClick: MenuProps['onClick'] = ({ key }) => {
+    console.log('click ', key);
+  };
+
+
+const items: MenuProps['items'] = [
+    {
+        label: 'Save',
+        key: '0',
+    },
+    {
+        label: 'Hide',
+        key: '1',
+    },
+    {
+        label: 'Report',
+        key: '3',
+    },
+];  
 
 const Post = (props: any) => {
     const [form] = Form.useForm();
@@ -135,17 +154,17 @@ const Post = (props: any) => {
                             </div>
                         </div>
                         <div>
-                            <div className="dropdown">
-                                <button className="btn btn-link dropdown-toggle" type="button" id="gedf-drop11" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i className="fa fa-ellipsis-h"></i>
-                                </button>
-                                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop11">
-                                    <div className="h6 dropdown-header">Configuration</div>
-                                    <a className="dropdown-item" href="#/">Save</a>
-                                    <a className="dropdown-item" href="#/">Hide</a>
-                                    <a className="dropdown-item" href="#/">Report</a>
-                                </div>
-                            </div>
+                        <div className="btn-group">
+                            <Dropdown menu={{ items, onClick }}>
+                                <a onClick={(e) => e.preventDefault()}>
+                                    <Space>
+                                        <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i className="fa fa-ellipsis-h"></i>
+                                        </button>
+                                    </Space>
+                                </a>
+                            </Dropdown>
+                        </div>
                         </div>
                     </div>
                 </div>

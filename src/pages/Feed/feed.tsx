@@ -1,10 +1,30 @@
 import React from 'react';
 import './feed.scss';
 import { useSession } from '../../hooks';
+import { Dropdown, MenuProps, Space } from 'antd';
+
+    const onClick: MenuProps['onClick'] = ({ key }) => {
+        console.log('click ', key);
+    };
+
+
+const items: MenuProps['items'] = [
+    {
+      label: 'Save',
+      key: '0',
+    },
+    {
+      label: 'Hide',
+      key: '1',
+    },
+    {
+      label: 'Report',
+      key: '3',
+    },
+];  
 
 const Feed: React.FC = (props: any) => {
     const { user } = useSession();
-    console.log(user);
 
     return (
         <>
@@ -46,16 +66,6 @@ const Feed: React.FC = (props: any) => {
                                 <div className="btn-group">
                                     <button type="submit" className="btn btn-theme-primary">share</button>
                                 </div>
-                                <div className="btn-group">
-                                    <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i className="fa fa-globe"></i>
-                                    </button>
-                                    <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a className="dropdown-item" href="#/"><i className="fa fa-globe"></i> Public</a>
-                                        <a className="dropdown-item" href="#/"><i className="fa fa-users"></i> Friends</a>
-                                        <a className="dropdown-item" href="#/"><i className="fa fa-user"></i> Just me</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,16 +84,16 @@ const Feed: React.FC = (props: any) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="dropdown">
-                                        <button className="btn btn-link dropdown-toggle" type="button" id="gedf-drop11" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i className="fa fa-ellipsis-h"></i>
-                                        </button>
-                                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop11">
-                                            <div className="h6 dropdown-header">Configuration</div>
-                                            <a className="dropdown-item" href="#/">Save</a>
-                                            <a className="dropdown-item" href="#/">Hide</a>
-                                            <a className="dropdown-item" href="#/">Report</a>
-                                        </div>
+                                    <div className="btn-group">
+                                        <Dropdown menu={{ items, onClick }} trigger={['click']}>
+                                            <a onClick={(e) => e.preventDefault()}>
+                                                <Space>
+                                                    <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i className="fa fa-ellipsis-h"></i>
+                                                    </button>
+                                                </Space>
+                                            </a>
+                                        </Dropdown>
                                     </div>
                                 </div>
                             </div>
@@ -116,16 +126,16 @@ const Feed: React.FC = (props: any) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="dropdown">
-                                        <button className="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i className="fa fa-ellipsis-h"></i>
-                                        </button>
-                                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                            <div className="h6 dropdown-header">Configuration</div>
-                                            <a className="dropdown-item" href="#/">Save</a>
-                                            <a className="dropdown-item" href="#/">Hide</a>
-                                            <a className="dropdown-item" href="#/">Report</a>
-                                        </div>
+                                    <div className="btn-group">
+                                        <Dropdown menu={{ items, onClick }} trigger={['click']}>
+                                            <a onClick={(e) => e.preventDefault()}>
+                                                <Space>
+                                                    <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i className="fa fa-ellipsis-h"></i>
+                                                    </button>
+                                                </Space>
+                                            </a>
+                                        </Dropdown>
                                     </div>
                                 </div>
                             </div>
@@ -167,16 +177,16 @@ const Feed: React.FC = (props: any) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="dropdown">
-                                        <button className="btn btn-link dropdown-toggle" type="button" id="gedf-drop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i className="fa fa-ellipsis-h"></i>
-                                        </button>
-                                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop2">
-                                            <div className="h6 dropdown-header">Configuration</div>
-                                            <a className="dropdown-item" href="#/">Save</a>
-                                            <a className="dropdown-item" href="#/">Hide</a>
-                                            <a className="dropdown-item" href="#/">Report</a>
-                                        </div>
+                                <div className="btn-group">
+                                        <Dropdown menu={{ items, onClick }} trigger={['click']}>>
+                                            <a onClick={(e) => e.preventDefault()}>
+                                                <Space>
+                                                    <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i className="fa fa-ellipsis-h"></i>
+                                                    </button>
+                                                </Space>
+                                            </a>
+                                        </Dropdown>
                                     </div>
                                 </div>
                             </div>

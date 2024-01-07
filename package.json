@@ -1,9 +1,10 @@
 {
-  "name": "lets-learn-redux-toolkit",
-  "version": "0.0.0",
+  "name": "frontend",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "start": "vite",
     "serve": "vite preview"
   },
   "dependencies": {
