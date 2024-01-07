@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { CreateProfileDto } from './dto/create-profile.dto';
 

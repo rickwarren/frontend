@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './header.styles.scss';
-import { useSession } from '@/hooks';
+import { useSession } from '../../hooks';
 import { Avatar, Dropdown, MenuProps, Space } from 'antd';
 
 const Header: React.FC = (props: any) => {

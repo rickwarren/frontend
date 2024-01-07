@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import EnvironmentPlugin from 'vite-plugin-environment'
+import reactRefresh from '@vitejs/plugin-react-refresh';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), EnvironmentPlugin('all')],
+  plugins: [EnvironmentPlugin('all'), reactRefresh()],
   server: {
     host: true,
     port: 3000

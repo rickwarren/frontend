@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { UpdateFriendRequestDto } from './dto/update-friend-request.dto';
 import { CreateFriendRequestDto } from './dto/create-friend-request.dto';
 

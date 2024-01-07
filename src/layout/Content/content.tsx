@@ -1,6 +1,6 @@
 import React from 'react';
 import "./content.styles.scss";
-import { Router } from '@/router';
+import { Router } from '../../router';
 
 const Content: React.FC = (props: any) => {
     return (

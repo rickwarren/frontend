@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UploadFile } from 'antd';

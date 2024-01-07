@@ -1,11 +1,12 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import { AuthContext, SignInCredentials, User } from '@/contexts'
-import { paths } from '@/router'
-import { api, setAuthorizationHeader } from '@/services'
-import { createSessionCookies, getToken, removeSessionCookies } from '@/utils'
-import { SignUpCredentials } from '@/contexts/AuthContext/AuthContext'
+import { AuthContext, SignInCredentials, User } from '../../contexts'
+import { paths } from '../../router'
+import { api, setAuthorizationHeader } from '../../services'
+import { createSessionCookies, getToken, removeSessionCookies } from '../../utils'
+import { SignUpCredentials } from '../../contexts/AuthContext/AuthContext'
+import React from 'react';
 
 type Props = {
   children: ReactNode

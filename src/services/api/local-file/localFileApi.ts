@@ -1,4 +1,4 @@
-import { api } from "@/services/api";
+import { api } from "../../../services/api";
 
 async function getLocalFile(fileId: string) {
     const response = await api.get('http://localhost:3000/upload/' + fileId);

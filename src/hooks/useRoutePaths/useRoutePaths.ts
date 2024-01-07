@@ -1,4 +1,4 @@
-import { paths } from '@/router'
+import { paths } from '../../router'
 
 function useRoutePaths() {
   return paths

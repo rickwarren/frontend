@@ -7,15 +7,16 @@ import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import { useSession } from "@/hooks/useSession";
-import { createPhoto, getPhotos } from "@/services/api/photo";
-import { createLocalFile, getLocalFile } from "@/services/api/local-file";
+import { useSession } from "../../hooks/useSession";
+import { createPhoto, getPhotos } from "../../services/api/photo";
+import { createLocalFile, getLocalFile } from "../../services/api/local-file";
 import { Button, Upload, UploadProps } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import './profile-photos.scss';
 import { getImageSize } from "react-image-size";
 import { useLocation } from "react-router-dom";
-import { getUserBySlug } from "@/services/api/user";
+import { getUserBySlug } from "../../services/api/user";
+import React from "react";
 
 async function fetchImageSize(url: string) {
     try {

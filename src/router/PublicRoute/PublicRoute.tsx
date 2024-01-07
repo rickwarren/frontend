@@ -1,8 +1,9 @@
 import { ReactNode, Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
-import { ErrorState, Loader } from '@/components'
-import { useSession } from '@/hooks'
+import { ErrorState, Loader } from '../../components'
+import { useSession } from '../../hooks'
+import React from 'react'
 
 type Props = {
   children: ReactNode

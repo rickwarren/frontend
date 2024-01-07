@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './profile-activity.scss';
-import { useSession } from '@/hooks';
-import { createPost, getPosts } from '@/services/api/post/postApi';
-import { getUser, getUserBySlug } from '@/services/api/user';
+import { useSession } from '../../hooks';
+import { createPost, getPosts } from '../../services/api/post/postApi';
+import { getUser, getUserBySlug } from '../../services/api/user';
 import { Post } from '../Post';
 import { Button, Form, FormInstance, Input, UploadFile, UploadProps } from 'antd';
 import Upload, { RcFile } from 'antd/es/upload';
@@ -10,9 +10,11 @@ import ImgCrop from 'antd-img-crop';
 import { ProfileDetails } from '../ProfileDetails';
 import { SupportedCharities } from '../SupportedCharities';
 import CorporateSponsors from '../CorporateSponsors/corporate-sponsors';
-import { createLocalFile } from '@/services/api/local-file';
+import { createLocalFile } from '../../services/api/local-file';
 import { ProfileCarousel } from '../ProfileCarousel';
 import { useLocation } from 'react-router-dom';
+import { useFetchPostsQuery, useFetchUserQuery } from '../../features/api/api-slice';
+import { useSelector } from 'react-redux';
 
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
@@ -47,8 +49,9 @@ const ProfileActivity: React.FC = (props: any) => {
     const path = location.pathname;
     const { user } = useSession();
     const patharr = path.split('/');
+    const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
     const [image, setImage] = useState<any>();
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [fileList, setFileList] = useState<UploadFile[]>([])
     
     const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
@@ -123,17 +126,15 @@ const ProfileActivity: React.FC = (props: any) => {
 
     useEffect(() => {
         if(patharr[1] == 'profile') {
-            getUserBySlug(patharr[2]).then((usr) => {
-                setU(usr);
-                retrievePosts(usr);
-                form.setFieldsValue({ authorId: user?.id, locationId: usr?.profile?.id });
-            });
+            setU(data);
+            retrievePosts(data);
+            form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
         } else {
             setU(user);
             retrievePosts(user);
             form.setFieldsValue({ authorId: user?.id, locationId: user?.userModel?.profile?.id });
         }
-    }, []);
+    }, [isFetching]);
 
     return (
         <>

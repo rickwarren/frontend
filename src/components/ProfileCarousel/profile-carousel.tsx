@@ -1,6 +1,7 @@
-import { useSession } from '@/hooks';
-import { getPhotos } from '@/services/api/photo';
-import { getUserBySlug } from '@/services/api/user';
+import { useFetchUserQuery } from '../../features/api/api-slice';
+import { useSession } from '../../hooks';
+import { getPhotos } from '../../services/api/photo';
+import { getUserBySlug } from '../../services/api/user';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ const ProfileCarousel: React.FC = (props: any) => {
     const path = location.pathname;
     const { user } = useSession();
     const patharr = path.split('/');
+    const {data = [], isFetching } = useFetchUserQuery(patharr[2]);
     const [photos, setPhotos] = useState<string[]>([]);
 
     const retrievePhotos = async (usr: any) => {
@@ -28,15 +30,13 @@ const ProfileCarousel: React.FC = (props: any) => {
 
     useEffect(() => {
         if(patharr[1] === 'profile') {
-            getUserBySlug(patharr[2]).then((usr) => {
-                setU(usr);
-                retrievePhotos(usr);
-            });
+            setU(data);
+            retrievePhotos(u);
         } else {
             setU(user);
             retrievePhotos(user);
         }
-    }, []);
+    }, [isFetching]);
 
     return (
         <>

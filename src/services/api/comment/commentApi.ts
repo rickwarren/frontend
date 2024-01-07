@@ -1,4 +1,4 @@
-import { api } from '@/services';
+import { api } from '../../../services';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 

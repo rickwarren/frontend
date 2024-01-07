@@ -4,11 +4,11 @@ import EasyEdit from "react-easy-edit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faCalendar, faCheck, faEnvelope, faHeart, faHome, faMapPin, faMobile, faNeuter, faTimes, faTowerBroadcast, faUser, faUserTie } from "@fortawesome/free-solid-svg-icons";
 import './profile-about.scss';
-import { useSession } from '@/hooks';
-import { ProfileDto } from '@/services/api/profile/dto/profile.dto';
-import { getProfile } from '@/services/api/profile';
+import { useSession } from '../../hooks';
+import { ProfileDto } from '../../services/api/profile/dto/profile.dto';
+import { getProfile } from '../../services/api/profile';
 import { useLocation } from 'react-router-dom';
-import { getUserBySlug } from '@/services/api/user';
+import { getUserBySlug } from '../../services/api/user';
 
 const ProfileAbout: React.FC = (props: any) => {
     const [u, setU] = useState<any>();
