@@ -86,7 +86,7 @@ const Profile: React.FC = (props: any) => {
 		<div>
 			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet"/>
 <main>
-    <div className="container">
+    <div className={patharr[1] === 'profile' ? 'container profile' : 'container myprofile'}>
         <div className="wrapper">
             <div className="heading">
                 <div className="img"></div>

@@ -6,9 +6,23 @@ async function getFriends() {
     return response.data;
 }
 
-async function getFriendsByUserId(userId: string) {
-    const response = await api.get('http://localhost:3000/friend-list/{userId}');
-    return response.data;
+async function getFriendsByUserId(userId: string | undefined) {
+    if(userId !== undefined) {
+        const friends = await api.get('http://localhost:3000/friend-list/' + userId);
+        const users = friends.data.map(async (friend: any) => {
+            if(friend.requesterId !== userId) {
+                return await api.get('http://localhost:3000/user/' + friend.requesterId);
+            } if(friend.addresseId !== userId) {
+                return await api.get('http://localhost:3000/user/' + friend.addresseId);
+            }
+        });
+        console.log(users);
+        return {
+            users: users,
+            friends: friends.data
+        };
+    }
+
 }
 
 async function areUsersFriends(requesterId: string, addresseId: string) {

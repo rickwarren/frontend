@@ -1,5 +1,3 @@
-import * as protoscript from 'protoscript';
-
 export class FriendListDto {
   constructor(data: any) {
     this.id = data.id;
