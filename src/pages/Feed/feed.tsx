@@ -178,7 +178,7 @@ const Feed: React.FC = (props: any) => {
                                 </div>
                                 <div>
                                 <div className="btn-group">
-                                        <Dropdown menu={{ items, onClick }} trigger={['click']}>>
+                                        <Dropdown menu={{ items, onClick }} trigger={['click']}>
                                             <a onClick={(e) => e.preventDefault()}>
                                                 <Space>
                                                     <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
