@@ -14,7 +14,12 @@ export const ChatWidgetContainer = (props: any) => {
     }
 
     const toggleChatWindow = (usr: any) => {
-        setChatWindow([...chatWindow, {user: usr, elem: chatWindow.concat(<ChatWidgetWindow user={usr} />)}]);
+        const result = chatWindow.map((chat: any) => {
+            return chat.user.id === usr.id
+        });
+        if(!result.includes(true)) { 
+            setChatWindow([...chatWindow, {user: usr, elem: chatWindow.concat(<ChatWidgetWindow user={usr} />)}]);
+        }
     }
 
     const hide = (index: any) => {
@@ -28,21 +33,6 @@ export const ChatWidgetContainer = (props: any) => {
         <>
             <div className="chat-widget-wrapper">
                 <Row justify="space-between" align="bottom">
-                    <Col>
-                    {visible ? (
-                        <div className="chat-widget-container">
-                            <ChatWidgetUserList click={toggleChatWindow} />
-                            <div className="user-list-header">
-                                <span className="user-list-title">Chat</span>
-                                <div className="close-button">
-                                    <i className="fas fa-window-minimize" onClick={toggleVisible}></i>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="chat-widget-container" onClick={toggleVisible}>Chat With Friends</div>
-                    ) }
-                    </Col>
                     {chatWindow.map((item: any, index: any) => {
                         let connectedUsers: any | null = localStorage.getItem('connectedUsers');
                         connectedUsers = JSON.parse(connectedUsers);
@@ -54,17 +44,26 @@ export const ChatWidgetContainer = (props: any) => {
                             <Col key={index}>
                                 <ChatWidgetWindow user={item.user} />
                                 <div className="chat-window-header">
-                                    <span className="chat-window-title">
-                                        <Badge status={status === 'success' ? 'success' : 'default'} />
-                                        <span className="window-name">{item?.user?.profile?.firstName} {item?.user?.profile?.lastName}</span>
-                                    </span>
-                                    <div className="close-button">
-                                        <i className="fas fa-xmark" onClick={() => hide(index)}></i>
+                                    <div className="chat-window-header-wrapper">
+                                        <span className="chat-window-title">
+                                            <span className="window-name">{item?.user?.profile?.firstName} {item?.user?.profile?.lastName}</span>
+                                        </span>
+                                        <div className="close-button">
+                                            <i className="fas fa-xmark" onClick={() => hide(index)}></i>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
                         )
                     })}
+                    <Col>
+                        <div className="chat-widget-container">
+                            <ChatWidgetUserList click={toggleChatWindow} />
+                            <div className="user-list-header">
+                                <span className="user-list-title">Chat</span>
+                            </div>
+                        </div>
+                    </Col>
                 </Row>
             </div>
         </>

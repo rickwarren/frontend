@@ -43,6 +43,7 @@ function AuthProvider(props: Props) {
       const response = await api.post('http://localhost:3000/user/auth/', { token: t});
       const { id, userModel, token, permissions, roles } = response.data;
       createSessionCookies({ token })
+      localStorage.setItem('user', JSON.stringify(userModel));
       setUser({ id, userModel, permissions, roles })
       setAuthorizationHeader({ request: api.defaults, token })
     } catch (error) {

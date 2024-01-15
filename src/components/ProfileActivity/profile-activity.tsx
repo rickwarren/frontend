@@ -1,20 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './profile-activity.scss';
-import { useSession } from '../../hooks';
-import { createPost, getPosts } from '../../services/api/post/postApi';
+import { getPosts } from '../../services/api/post/postApi';
 import { getUser, getUserBySlug } from '../../services/api/user';
-import { Post } from '../Post';
-import { Button, Form, FormInstance, Input, UploadFile, UploadProps } from 'antd';
-import Upload, { RcFile } from 'antd/es/upload';
-import ImgCrop from 'antd-img-crop';
-import { ProfileDetails } from '../ProfileDetails';
-import { SupportedCharities } from '../SupportedCharities';
-import CorporateSponsors from '../CorporateSponsors/corporate-sponsors';
-import { createLocalFile } from '../../services/api/local-file';
-import { ProfileCarousel } from '../ProfileCarousel';
+import { Button, Form, FormInstance } from 'antd';
 import { useLocation } from 'react-router-dom';
-import { useFetchPostsQuery, useFetchUserQuery } from '../../features/api/api-slice';
-import { useSelector } from 'react-redux';
+import ProfileSidebar from './sidebar';
+import MainContent from './main-content';
 
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
@@ -42,66 +33,15 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
   };
 
 const ProfileActivity: React.FC = (props: any) => {
+    let user: any = localStorage.getItem('user')
+    user = JSON.parse(user);
     const [form] = Form.useForm();
     const [posts, setPosts] = useState<any>();
     const [u, setU] = useState<any>();
     const location = useLocation();
     const path = location.pathname;
-    const { user } = useSession();
     const patharr = path.split('/');
-    const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
-    const [image, setImage] = useState<any>();
-    const [fileList, setFileList] = useState<UploadFile[]>([])
     
-    const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
-        setFileList(newFileList);
-        setImage(file.originFileObj);
-    };
-    
-    const onPreview = async (file: UploadFile) => {
-        let src = file.url as string;
-        if (!src) {
-          src = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file.originFileObj as RcFile);
-            reader.onload = () => resolve(reader.result as string);
-          });
-        }
-        const img = new Image();
-        img.src = src;
-        const imgWindow = window.open(src);
-        imgWindow?.document.write(image.outerHTML);
-    };
-
-    const onFinish = async (values: any) => {
-        if(values.message.length > 1) {
-            if(image) {
-                const response = await createLocalFile(image);
-                if(response) {
-                    values.attachment = response.id;
-                }
-            }
-            await createPost(values);
-            form.resetFields();
-            form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id || user?.userModel?.profile?.id });
-            retrievePosts(u);
-            setFileList([]);
-            setImage(null);
-        }
-    }
-
-     const authorIdProps = {
-        hidden: true
-     }
-
-     const locationIdProps = {
-        hidden: true
-     }
-
-    const sharedProps = {
-        style: { width: '100%' },
-        placeholder: "What's new with you?",
-    };
 
     async function retrievePosts(usr: any) {
         try {
@@ -126,85 +66,24 @@ const ProfileActivity: React.FC = (props: any) => {
 
     useEffect(() => {
         if(patharr[1] == 'profile') {
-            setU(data);
-            retrievePosts(data);
-            form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
+            let fetchData = async () => {
+                const result = await getUserBySlug(patharr[2]);
+                setU(result);
+                retrievePosts(result);
+                form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
+            }
+            fetchData();
         } else {
             setU(user);
             retrievePosts(user);
             form.setFieldsValue({ authorId: user?.id, locationId: user?.userModel?.profile?.id });
         }
-    }, [isFetching]);
+    }, []);
 
     return (
         <>
-        <div className="col-lg-5 left-sidebar">
-                <ProfileDetails />
-                <SupportedCharities />
-                <CorporateSponsors />
-                <ProfileCarousel />
-            </div>
-            <div className="col-lg-7 gedf-main">
-                <div className="card social-timeline-card newpost">
-                    <div className="card-body">
-                    <div className="comments-input-wrapper">
-                    <Form
-                        name="post"
-                        form={form}
-                        onFinish={onFinish}
-                        autoComplete="off"
-                    >
-                        <div className="comments-input">
-                            <div className="mr-2">
-                                <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + u?.profile ? u?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto} alt=""/>
-                           </div>
-                            <div className="ml-2">
-                            <Form.Item
-                                name="message"
-                                rules={[{ required: true }]}
-                            >
-                                <Input.TextArea {...sharedProps} /> 
-                            </Form.Item>
-                            <Form.Item
-                                name="authorId"
-                            >
-                                <Input {...authorIdProps} />
-                            </Form.Item>
-                            <Form.Item
-                                name="locationId"
-                            >
-                                <Input {...locationIdProps} /> 
-                            </Form.Item>
-                            </div>
-                        <ImgCrop rotationSlider>
-                            <Upload
-                                action="http://localhost:3000/post/upload"
-                                listType="picture-card"
-                                fileList={fileList}
-                                onChange={onChange}
-                                onPreview={onPreview}
-                            >
-                                {fileList.length < 1 && '+ Upload'}
-                            </Upload>
-                            </ImgCrop>
-                        <div className="submit-wrapper">
-                            <Form.Item>
-                                <SubmitButton form={form} />
-                            </Form.Item>
-                        </div>
-                    </div>
-                    </Form>  
-                    </div>  
-                    </div>
-                </div>
-                { posts ? posts?.map((post: any) => {
-                return (
-                    <div key={post.id} className="post-wrapper">
-                        <Post post={post} retrievePosts={retrievePosts} />
-                    </div>
-                )
-                }) : ''}
-            </div>
+            <ProfileSidebar />
+            <MainContent posts={posts} retrievePosts={retrievePosts} />
         </>
     );
 }
