@@ -1,9 +1,7 @@
 .chat-widget-wrapper {
-    position: fixed;
-    bottom: 0;
+    position: absolute;
+    top: 450px;
     right: 0;
-    background: #ffffff;
-    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
 .chat-widget-container {
@@ -14,30 +12,21 @@
     min-width: 300px;
     max-height: 500px;
     max-width: 300px;
-    background-color: rgba(0,0,0,.03);
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
 .chat-widget-user-window {
     min-height: 50px;
-    min-width: 400px;
+    min-width: 300px;
     max-height: 450px;
-    max-width: 400px;
+    max-width: 300px;
     position: relative;
-    background-color: #fff;
     border-radius: 0.25rem;
-    box-shadow: 0 10px 20px 0 rgba(26, 44, 57, 0.14);
 }
 
 .chat-window-container,
 .chat-widget-user {
-    width: 400px;
+    width: 300px;
     height: 500px;
-}
-
-.chat-widget-user {
-    background-color: #ffffff;
 }
 
 ul.chat-widget-user-list {
@@ -80,7 +69,6 @@ li.chat-widget-user-list-item {
     top: 0;
     right: 0;
     padding: 10px;
-    cursor: pointer;
 }
 
 .close-button {
@@ -107,9 +95,9 @@ ul.chat-widget-user-list {
 .user-list-header,
 .chat-window-header {
     width: 100%;
-    background-color: rgba(0,0,0,.03);
     border-bottom: 1px solid rgba(0,0,0,.125);
-    padding: 5px;
+    padding: 0;
+    top: -40px;
 }
 
 .close-button {
@@ -119,7 +107,6 @@ ul.chat-widget-user-list {
 .chat-widget-container {
     text-align: center;
     font-size: large;
-    padding: 10px;
 }
 
 .user-list-title, 
@@ -163,6 +150,7 @@ li.chat-window-other-message {
     text-align: left;
     display: inline;
     float: left;
+    clear: both;
     width: auto;
 }
 
@@ -270,12 +258,55 @@ textarea#post_message {
     z-index: 999;
 }
 
-span.ant-badge-status-dot.ant-badge-status-default {
-    min-width: 15px;
-    min-height: 15px;
+.window-name {
     margin-left: 5px;
 }
 
-.window-name {
-    margin-left: 5px;
+ul.chat-window-list {
+    max-height: 350px;
+    height: 350px;
+    overflow-y: scroll;
+}
+
+ul.chat-window-list {
+    background-color: #ffffff;
+}
+
+.comments-input-wrapper {
+    background-color: #ffffff;
+}
+
+.chat-window-input {
+    background-color: rgba(0,0,0,.03);
+}
+
+.chat-window-header {
+    background-color: #ffffff;
+}
+
+.chat-window-header-wrapper {
+    background-color: rgba(0,0,0,.03);
+}
+
+.chat-window-header-wrapper {
+    height: 100%;
+    padding: 5px;
+}
+
+@media(max-width: 1100px) {
+    .chat-widget-container {
+        display: none;
+    }
+}
+
+span.ant-badge-status-dot.ant-badge-status-default {
+    position: absolute !important;
+    left: -18px;
+    top: 10px !important;
+    width: 15px;
+    display: block;
+    background-color: lightgrey !important;
+    border: 3px solid #ffffff;
+    min-width: 15px;
+    min-height: 15px;
 }

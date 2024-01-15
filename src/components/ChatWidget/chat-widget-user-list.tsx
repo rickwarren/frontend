@@ -11,9 +11,11 @@ interface ChatWidgetProps {
 }
 
 export const ChatWidgetUserList = (props: ChatWidgetProps) => {
-    const { user } = useSession();
+    let user: any = localStorage.getItem('user')
+    user = JSON.parse(user);
     const [isLoading, setIsLoading] = useState(true);
     const [userList, setUserList] = useState<any>([]);
+    const [sortedUserList, setSortedUserList] = useState<any>([]);
     const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
     const [connectedUsers, setConnectedUsers] = useState();
 
@@ -53,23 +55,30 @@ export const ChatWidgetUserList = (props: ChatWidgetProps) => {
                 return usr
             });
             setUserList(list);
+            console.log('userList: ', userList);
+            const unsortedUserList = userList.map((item: any, index: number) => {
+                let status: string = 'default';
+                if(connectedUsers) {
+                    status = connectedUsers[item.id] ? 'online' : 'default';
+                }
+                return { item, status, index }
+            })
+            setSortedUserList(unsortedUserList.sort((a: any, b: any) => {
+                return a.status - b.status
+            }))
             setIsLoading(false);
         }
         fetchData();
-    }, []);
+    }, [isLoading]);
     
     return (
         <>
             <div className="chat-widget-user">
                 <ul className="chat-widget-user-list">
                     {isLoading ? '' : (
-                        userList?.map((item: any, index: any) => {
-                            let status = 'default';
-                            if(connectedUsers) {
-                                status = connectedUsers[item.id] ? 'online' : 'default';
-                            }
+                        sortedUserList?.map((item: any) => {
                             return (
-                                <Item key={index} user={item} status={status} click={props.click} />
+                                <Item key={item.index} user={item.item} status={item.status} click={props.click} />
                             )
                         })
                     )}

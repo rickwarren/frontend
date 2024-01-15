@@ -1,13 +1,14 @@
 import { Routes, Route, useNavigation, useNavigate } from 'react-router-dom'
 import { useRoutePaths } from '../../hooks'
-import { Events, Feed, Friends, Groups, Login, NoMatch, MyProfile } from '../../pages'
+import { Events, Feed, Friends, Groups, Login, NoMatch } from '../../pages'
 import { PrivateRoute } from '../PrivateRoute'
 import { PublicRoute } from '../PublicRoute'
 import { ProfileAbout, ProfileActivity, ProfileFriends, ProfilePhotos, ProfileVideos } from '../../components'
-import Profile from '../../pages/Profile/profile'
 import { ProfileFollowers } from '../../components/ProfileFollowers'
 import { ProfileFollowing } from '../../components/ProfileFollowing'
 import React from 'react'
+import Profile from '../../pages/Profile/profile';
+import MyProfile from '../../pages/MyProfile/myprofile';
 
 
 function Router() {
@@ -132,7 +133,7 @@ function Router() {
         path={PROFILE_PATH}
         element={
           <PrivateRoute permissions={['profile.view']} redirectTo={LOGIN_PATH}>
-            <Profile />
+            <MyProfile />
           </PrivateRoute>
         }
       >

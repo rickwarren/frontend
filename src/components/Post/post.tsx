@@ -9,6 +9,7 @@ import { RcFile } from 'antd/es/upload';
 import { createLocalFile } from '../../services/api/local-file';
 import { useLocation } from 'react-router-dom';
 import { useFetchUserQuery } from '../../features/api/api-slice';
+import { getFriendsByUserId } from '../../services/api/friend-list';
 
 dayjs.extend(relativeTime);
 
@@ -56,13 +57,14 @@ const items: MenuProps['items'] = [
 ];  
 
 const Post = (props: any) => {
+    let user: any = localStorage.getItem('user')
+    user = JSON.parse(user);
     const [form] = Form.useForm();
     const [showComments, setShowComments] = useState<boolean>(false);
     const [like, setLike] = useState<boolean>(false);
     const [u, setU] = useState<any>();
     const location = useLocation();
     const path = location.pathname;
-    const { user } = useSession();
     const patharr = path.split('/');
     const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
     const [image, setImage] = useState<any>();
@@ -101,7 +103,12 @@ const Post = (props: any) => {
             await createComment(values);
             form.resetFields();
             form.setFieldsValue({ authorId: user?.id, postId: post.id });
-            await props.retrievePosts(u);
+            if(props.retrievePosts) {
+                await props.retrievePosts(u);
+            } else {
+                const response = await getFriendsByUserId(user?.id);
+                props.retrieveFriendPosts(response?.users);
+            }
             setFileList([]);
             setImage(null);
         }

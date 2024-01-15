@@ -10,23 +10,30 @@ async function getFriendsByUserId(userId: string | undefined) {
     if(userId !== undefined) {
         const friends = await api.get('http://localhost:3000/friend-list/' + userId);
         const users = friends.data.map(async (friend: any) => {
-            if(friend.requesterId !== userId) {
-                return await api.get('http://localhost:3000/user/' + friend.requesterId);
-            } if(friend.addresseId !== userId) {
-                return await api.get('http://localhost:3000/user/' + friend.addresseId);
-            }
+            return await api.get('http://localhost:3000/user/' + friend.id);
         });
-        console.log(users);
         return {
             users: users,
             friends: friends.data
         };
     }
+}
 
+async function getFriendsOfFriendsByUserId(userId: string | undefined) {
+    if(userId !== undefined) {
+        const friends = await api.get('http://localhost:3000/friend-list/friends/' + userId);
+        const users = friends.data.map(async (friend: any) => {
+            return await api.get('http://localhost:3000/user/' + friend.id);
+        });
+        return {
+            users: users,
+            friends: friends.data
+        };
+    }
 }
 
 async function areUsersFriends(requesterId: string, addresseId: string) {
-    const response = await api.get('http://localhost:3000/friend-list/{requesterId}/{addresseId}');
+    const response = await api.get('http://localhost:3000/friend-list/' + requesterId + '/' + addresseId);
     return response.data;
 }
 
@@ -36,13 +43,14 @@ async function addFriend(data: CreateFriendListDto) {
 }
 
 async function removeFriend(id: string) {
-    const response = await api.delete('http://localhost:3000/friend-request/{id}');
+    const response = await api.delete('http://localhost:3000/friend-request/' + id);
     return response.data;
 }
 
 export {
     getFriends,
     getFriendsByUserId,
+    getFriendsOfFriendsByUserId,
     areUsersFriends,
     addFriend,
     removeFriend

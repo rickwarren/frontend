@@ -11,10 +11,11 @@ import { useLocation } from 'react-router-dom';
 import { getUserBySlug } from '../../services/api/user';
 
 const ProfileAbout: React.FC = (props: any) => {
+    let user: any = localStorage.getItem('user')
+    user = JSON.parse(user);
     const [u, setU] = useState<any>();
     const location = useLocation();
     const path = location.pathname;
-    const { user } = useSession();
     const patharr = path.split('/');
     const [profile, setProfile] = useState<ProfileDto>();
 

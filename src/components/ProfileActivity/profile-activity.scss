@@ -831,13 +831,7 @@ span.ant-upload-wrapper {
 
 .submit-wrapper {
   position: absolute;
-  left: 0;
-  bottom: 0;
-}
-
-.submit-wrapper {
-  position: absolute;
-  left: 50px;
+  left: 10px;
   bottom: 20px;
   margin-left: 10px;
 }
@@ -1009,4 +1003,14 @@ ul.photos-list {
   margin: auto;
   max-width: 375px;
   margin-left: 2em;
+}
+
+.myprofile .card.social-timeline-card.newpost,
+.profile .card.social-timeline-card.newpost {
+  margin-bottom: 35px;
+}
+
+.myprofile .ant-form-item-control-input,
+.profile .ant-form-item-control-input {
+  width: auto;
 }

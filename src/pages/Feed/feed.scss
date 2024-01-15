@@ -393,5 +393,146 @@ a {
     max-width: unset !important;
 }
 
+.card.social-timeline-card {
+    margin-bottom: 0;
+}
+
+.post-wrapper > .card.social-timeline-card {
+    margin-bottom: 35px;
+}
+
+.col-lg-5 h5.card-title {
+    padding: 10px;
+}
+
+.feed-wrapper {
+    margin: auto;
+}
+
+.ant-form-item-control-input {
+    width: 260px;
+}
+
+.card.social-timeline-card.newpost {
+    margin-bottom: 35px;
+}
+
+.ad-wrapper {
+    position: absolute;
+    top: 150px;
+    right: 0;
+}
+
+.feed-menu-wrapper {
+    position: absolute;
+}
+
+ul.feed-menu-list {
+    list-style-type: none;
+}
+
+li.feed-menu-item {
+    float: left;
+    clear: both;
+    display: inline-block;
+}
+
+li.feed-menu-item a {
+    display: inline-block;
+    width: 200px;
+}
+
+
+li.feed-menu-item i {
+    display: inline-block;
+    float: left;
+}
+
+.feed-menu-wrapper {
+    max-width: 200px;
+    width: 200px;
+}
+
+li.feed-menu-item {
+    width: 200px;
+    padding: 10px;
+}
+
+
+li.feed-menu-item i {
+    margin-right: 5px;
+}
+
+li.feed-menu-item:hover {
+    background-color: rgba(0,0,0,0.12)
+}
+
+ul.feed-menu-list {
+    padding-left: 0;
+}
+
+@media (max-width: 1200px) {
+    .ad-wrapper {
+        display: none;
+    }
+}
+
+ul.feed-menu-list {
+    padding-left: 0;
+}
+
+.feed-wrapper .card.social-timeline-card,
+.feed-wrapper .post-wrapper {
+    min-width: 500px;
+}
+
+ul.feed-menu-list {
+    padding-left: 0;
+}
+
+.feed-menu-item i {
+    font-size: x-large;
+}
+
+.feed-wrapper .ant-form-item-control-input {
+    width: 320px;
+}
+
+.submit-wrapper .ant-form-item-control-input {
+    width: auto;
+}
+
+.feed-menu-wrapper {
+    top: 75px;
+}
+
+.feed-menu-button-wrapper {
+    display: none;
+}
+
+@media (max-width: 650px) {
+    .feed-menu-wrapper {
+        display: none;
+    }
+    .feed-menu-button-wrapper {
+        display: block;
+    }
+}
+
+.feed-menu-button-wrapper {
+    width: 60px;
+    position: absolute;
+    left:  20px;
+}
+
+.feed-menu-button-wrapper i.fa.fa-bars.feed-menu-button {
+    font-size: xx-large;
+}
+
+li.feed-menu-item a {
+    text-decoration: none;
+}
+
+
 /*end social*/
 

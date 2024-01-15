@@ -9,7 +9,6 @@ const Content: React.FC = (props: any) => {
             <div className="content-wrapper">
                 <Router />
             </div>
-            <ChatWidget />
         </>
     );
 }

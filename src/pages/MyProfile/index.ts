@@ -1,0 +1,1 @@
+export * as MyProfile from './myprofile';

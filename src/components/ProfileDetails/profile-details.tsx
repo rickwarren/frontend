@@ -6,10 +6,11 @@ import { getUserBySlug } from '../../services/api/user';
 import { useFetchUserQuery } from '../../features/api/api-slice';
 
 const ProfileDetails: React.FC = (props: any) => {
+    let user: any = localStorage.getItem('user')
+    user = JSON.parse(user);
     const [u, setU] = useState<any>();
     const location = useLocation();
     const path = location.pathname;
-    const { user } = useSession();
     const patharr = path.split('/');
     const {data = [], isFetching} = useFetchUserQuery(patharr[2]);
       

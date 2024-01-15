@@ -12,23 +12,34 @@ import ImgCrop from 'antd-img-crop';
 import { ProfileDto } from '../../services/api/profile/dto/profile.dto';
 import { dateToYYYYMMDD_HHMM, formatDate } from '../../utils/date';
 import { createLocalFile } from '../../services/api/local-file';
-import { useFetchUserQuery } from '../../features/api/api-slice';
+import { useFetchUserByUrlStringQuery } from '../../features/api/api-slice';
+import { getFriendsByUserId } from '../../services/api/friend-list';
+import { createFriendRequest, getFriendRequestsByUserId } from '../../services/api/friend-request';
+import { Loader } from '../../components/Loader';
 
-const Profile: React.FC = (props: any) => {
-    const [u, setU] = useState<any>();
+const Profile: React.FC = () => {
+    let usr: any = localStorage.getItem('user')
+    usr = JSON.parse(usr);
+
     const location = useLocation();
     const path = location.pathname;
-    const { user } = useSession();
     const patharr = path.split('/');
-    const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
-    const navigate = useNavigate();
+    const {
+        data: user,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+      } = useFetchUserByUrlStringQuery(patharr[2]);
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [friend, setFriend] = useState<boolean>(false);
+    const [friendRequested, setFriendRequested] = useState<boolean>(false);
     
     const onChange: UploadProps['onChange'] = async ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
         setImage(file.originFileObj)
-        const profile: ProfileDto = await getProfile(u?.id ? u?.id : user?.id);
+        const profile: ProfileDto = await getProfile(usr?.id ? usr?.id : '');
         if(image) {
             const response = await createLocalFile(image);
             if(response) {
@@ -58,101 +69,120 @@ const Profile: React.FC = (props: any) => {
         imgWindow?.document.write(image.outerHTML);
     };
 
-    useEffect(() => {
-        if(patharr[1] === 'profile') {
-            setU(data);
-            setFileList([
-                {
-                    uid: '-1',
-                    name: '',
-                    status: 'done',
-                    url: 'http://localhost:3000/upload/' + u?.profile ? u?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto,
-                },
-            ]);
-        } else {
-            setU(user);
-            setFileList([
-                {
-                    uid: '-1',
-                    name: '',
-                    status: 'done',
-                    url: 'http://localhost:3000/upload/' + user?.userModel?.profile?.profilePhoto,
-                },
-            ]);
-        }
-    }, [isFetching]);
+    const messageFriend = async () => {
+        console.log('open message window');
+    }
 
-	return (
-		<div>
-			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet"/>
-<main>
-    <div className={patharr[1] === 'profile' ? 'container profile' : 'container myprofile'}>
-        <div className="wrapper">
-            <div className="heading">
-                <div className="img"></div>
-                <div className="card social-prof">
-                    <div className="card-body">
-                        <div className="wrapper">
-                            <div className="rotate-profile">
-                                <div className="prof-card">
-                                    {u?.profile ? (
-                                        <span className="ant-upload-wrapper css-dev-only-do-not-override-6j9yrn ant-upload-picture-card-wrapper">
-                                            <div className="ant-upload-list ant-upload-list-picture-card">
-                                                <div className="ant-upload-list-item-container">
-                                                    <div className="ant-upload-list-item ant-upload-list-item-done">
-                                                        <a href="#" className="ant-upload-list-item-thumbnail">
-                                                            <img src={'http://localhost:3000/upload/' + u?.profile?.profilePhoto} className="ant-upload-list-item-image" />
-                                                        </a>
+    const requestFriend = async () => {
+        if(user) {
+            await createFriendRequest({
+                requesterId: user?.id,
+                addresseId: usr?.id ? usr.id : '',
+                status: 'pending'
+            });
+            setFriendRequested(true);
+        }
+    }
+
+    useEffect(() => {
+        const fetchFriends = async () => {
+            const response = await getFriendsByUserId(user?.id);
+            if(response?.users.includes(usr)) {
+                setFriend(true);
+            } else {
+                setFriend(false);
+            }
+        }
+        const fetchFriendRequest = async () => {
+            if(user) {
+                const response = await getFriendRequestsByUserId(user?.id);
+                response.forEach((request: any) => {
+                    if(request.addresseId === usr?.id || request.requesterId === usr?.id) {
+                        setFriendRequested(true);
+                    }
+                })
+            }
+        }
+        fetchFriends();
+        fetchFriendRequest();
+        setFileList([
+            {
+                uid: '-1',
+                name: '',
+                status: 'done',
+                url: 'http://localhost:3000/upload/' + usr?.profile?.profilePhoto,
+            },
+        ]);
+    }, [isSuccess]);
+
+return (
+    <div>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet"/>
+        <main>
+            <div className='container myprofile'>
+                <div className="wrapper">
+                    <div className="heading">
+                        <div className="img"></div>
+                            <div className="card social-prof">
+                                <div className="card-body">
+                                    <div className="wrapper">
+                                        {isLoading ? (
+                                            <Loader />
+                                        ) : (
+                                            <>
+                                                <div className="rotate-profile">
+                                                    <div className="prof-card">
+                                                        <span className="ant-upload-wrapper css-dev-only-do-not-override-6j9yrn ant-upload-picture-card-wrapper">
+                                                            <div className="ant-upload-list ant-upload-list-picture-card">
+                                                                <div className="ant-upload-list-item-container">
+                                                                    <div className="ant-upload-list-item ant-upload-list-item-done">
+                                                                        <a href="#" className="ant-upload-list-item-thumbnail">
+                                                                            <img src={'http://localhost:3000/upload/' + user?.profile?.profilePhoto} className="ant-upload-list-item-image" />
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </span>
+                                                        <img src="./src/assets/coca-cola-4.svg" className="profile-back" />
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </span>
-                                    ) : (
-                                    <ImgCrop rotationSlider cropShape="round">
-                                        <Upload
-                                            action="http://localhost:3000/post/upload"
-                                            listType="picture-card"
-                                            fileList={fileList}
-                                            onChange={onChange}
-                                            onPreview={onPreview}
-                                        >
-                                            {fileList.length < 1 && '+ Upload'}
-                                        </Upload>
-                                    </ImgCrop>
-                                    )}
-                                    <img src="./src/assets/coca-cola-4.svg" className="profile-back" />
+                                            </>
+                                        )}
+                                        <div className="details">
+                                            <h3>{user?.profile?.firstName} {user?.profile?.lastName}</h3>
+                                            <p>{user?.profile?.profession}</p>
+                                        </div>
+                                        <div className="friend-wrapper">
+                                            {friend ? (
+                                                <button className="btn btn-primary" onClick={messageFriend}>Send a message</button>
+                                            ) : friendRequested ? (
+                                                <button className="btn btn-primary" disabled>Friend request sent</button>
+                                            ) : (
+                                                <button className="btn btn-primary" onClick={requestFriend}>Send Friend Request</button>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="row ">
+                                        <div className="col-lg-12">
+                                            <ul className=" nav nav-tabs justify-content-center s-nav">
+                                                <li><Link className={ location.pathname === 'activity' ? 'active' : '' } to="activity">Timeline</Link></li>
+                                                <li><Link className={ location.pathname === 'about' ? 'active' : '' } to="about">About</Link></li>
+                                                <li><Link className={ location.pathname === 'friends' ? 'active' : '' } to="friends">Friends</Link></li>
+                                                <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li>
+                                                <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li> 
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="details">
-                                { isFetching ? '' : (
-                                    <>
-                                        <h3>{u?.profile ? u?.profile?.firstName : user?.userModel?.profile?.firstName} {u?.profile ? u?.profile?.lastName : user?.userModel?.profile?.lastName}</h3>
-                                        <p>{u?.profile ? u?.profile?.profession : user?.userModel?.profile?.profession}</p>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                        <div className="row ">
-                            <div className="col-lg-12">
-                                <ul className=" nav nav-tabs justify-content-center s-nav">
-                                    <li><Link className={ location.pathname === 'activity' ? 'active' : '' } to="activity">Timeline</Link></li>
-                                    <li><Link className={ location.pathname === 'about' ? 'active' : '' } to="about">About</Link></li>
-                                    <li><Link className={ location.pathname === 'friends' ? 'active' : '' } to="friends">Friends</Link></li>
-                                    <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li>
-                                    <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li> 
-                                </ul>
                             </div>
                         </div>
                     </div>
+                    <div className="row">
+                        <Outlet />
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div className="row">
-            <Outlet />
-        </div>
-    </div>
-</main>
-		</div>
-	);
+            </main>   
+        </div> 
+    );
 }
 export default Profile;
