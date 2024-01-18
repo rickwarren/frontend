@@ -16,10 +16,11 @@ import { useFetchCurrentUserQuery, useFetchUserQuery } from '../../features/api/
 import { getFriendsByUserId } from '../../services/api/friend-list';
 import { createFriendRequest, getFriendRequestsByUserId } from '../../services/api/friend-request';
 import { Loader } from '../../components/Loader';
+import { UserDto } from '../../services/api/user/dto/user.dto';
+import { useRouteLoaderData } from 'react-router-typesafe';
 
 const MyProfile: React.FC = () => {
-    let user: any = localStorage.getItem('user')
-    user = JSON.parse(user);
+    const user: UserDto = useRouteLoaderData('profile-user') as UserDto;
     const location = useLocation();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);

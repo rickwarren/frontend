@@ -5,7 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { createLocalFile } from '../../services/api/local-file'
 import { createPost } from '../../services/api/post'
 import { useLocation } from 'react-router-dom'
-import { getUserBySlug } from '../../services/api/user'
+import { UserDto } from '../../services/api/user/dto/user.dto'
+import { useRouteLoaderData } from 'react-router-typesafe'
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
@@ -32,8 +33,7 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
   };
 
 const ActivityInput = (props: any) => {
-    let user: any = localStorage.getItem('user')
-    user = JSON.parse(user);
+    const user: UserDto = useRouteLoaderData('user') as UserDto;
     const [form] = Form.useForm();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -41,6 +41,11 @@ const ActivityInput = (props: any) => {
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
+    if(patharr[2] === 'profile') {
+        setU(useRouteLoaderData('profile-user') as UserDto);
+    } else {
+        setU(user);
+    }
     
     const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
@@ -72,7 +77,7 @@ const ActivityInput = (props: any) => {
             }
             await createPost(values);
             form.resetFields();
-            form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id || user?.userModel?.profile?.id });
+            form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id || '' });
             props.retrievePosts(u);
             setFileList([]);
             setImage(null);
@@ -93,17 +98,7 @@ const ActivityInput = (props: any) => {
     };
 
     useEffect(() => {
-        if(patharr[1] == 'profile') {
-            let fetchData = async () => {
-                const result = await getUserBySlug(patharr[2]);
-                setU(result);
-                form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
-            }
-            fetchData();
-        } else {
-            setU(user);
-            form.setFieldsValue({ authorId: user?.id, locationId: user?.userModel?.profile?.id });
-        }
+        form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
     }, []);
 
     return (
@@ -118,7 +113,7 @@ const ActivityInput = (props: any) => {
                     >
                         <div className="comments-input">
                             <div className="mr-2">
-                                <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + u?.profile ? u?.profile?.profilePhoto : user?.userModel?.profile?.profilePhoto} alt=""/>
+                                <img className="rounded-circle" width="30" src={'http://localhost:3000/upload/' + u?.profile ? u?.profile?.profilePhoto : ''} alt=""/>
                             </div>
                             <div className="ml-2">
                                 <Form.Item

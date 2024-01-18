@@ -7,9 +7,12 @@ import { useFetchCurrentUserQuery, useFetchNotificationsQuery } from '../../feat
 import Search, { SearchProps } from 'antd/es/input/Search';
 import { getUser } from '../../services/api/user';
 import Notifications from './notifications';
+import { searchQuery } from '../../services/api/search';
 
 const Header: React.FC = (props: any) => {
     const { user, isAuthenticated, signOut } = useSession();
+    const [visibility, setVisibility] = useState<string>('hidden');
+    const [value, setValue] = useState<string>('');
 
     const items: MenuProps['items'] = [
         {
@@ -40,7 +43,28 @@ const Header: React.FC = (props: any) => {
         },
     ];
 
-    const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
+    const onClick = (e: any) => {
+        setVisibility('hidden')
+        setValue('');
+    }
+
+    const onChange = (e: any) => {
+        setValue(e.target.value);
+        if(e.target.value.length > 0) {
+            setVisibility('visible')
+        } else {
+            setVisibility('hidden')
+        }
+    }
+
+    const onKeyDown = async (e: any) => {
+        if(e.key === 'Enter') {
+            setVisibility('hidden');
+            setValue('');
+            const results = await searchQuery(e.target.value);
+            console.log(results);
+        }
+    }
 
     return (
         <>
@@ -50,8 +74,9 @@ const Header: React.FC = (props: any) => {
                     <div className="header-logo" />
                 </Link>
                 <div className="search-wrapper">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-magnifying-glass"><path fill="currentColor" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" className=""></path></svg>
-                    <input type="text" className="search-input" placeholder="Search" />
+                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="svg-inline--fa fa-magnifying-glass"><path fill="currentColor" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" className=""></path></svg>
+                    <input type="text" value={value} className="search-input" placeholder="Search" onKeyDown={onKeyDown} onChange={onChange} />
+                    <span title="Clear" className={visibility === 'hidden' ? 'hidden' : ''} onClick={onClick}>&times;</span>
                 </div>
                 <ul>
                     <li>

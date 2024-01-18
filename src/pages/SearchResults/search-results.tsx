@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import './feed.scss';
+import './search-results.scss';
+import { useSession } from '../../hooks';
 import { MenuProps } from 'antd';
+import { getFriendsByUserId } from '../../services/api/friend-list';
 import { getPosts } from '../../services/api/post';
 import { Post } from '../../components/Post';
 import { getUser } from '../../services/api/user';
+import { ProfilePeople } from '../../components';
 import { ChatWidget } from '../../components/ChatWidget';
 import ActivityInput from '../../components/ProfileActivity/activity-input';
-import FeedMenu from './feed-menu';
-import { useRouteLoaderData } from 'react-router-typesafe';
-import { UserDto } from '../../services/api/user/dto/user.dto';
-import { PostDto } from '../../services/api/post/dto/post.dto';
+import FeedMenu from './search-menu';
+import SearchMenu from './search-menu';
+import { Outlet } from 'react-router-dom';
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
         console.log('click ', key);
@@ -31,17 +33,15 @@ const items: MenuProps['items'] = [
     },
 ];  
 
-const Feed: React.FC = (props: any) => {
-    const friendPosts: PostDto[] = useRouteLoaderData('friend-posts') as PostDto[];
-    const user: UserDto | boolean = useRouteLoaderData('user') as UserDto;
-    const [posts, setPosts] = useState<any>(friendPosts);
+const SearchResults: React.FC = (props: any) => {
+    const { user } = useSession();
+    const [posts, setPosts] = useState<any>([]);
 
     async function retrieveFriendPosts(usrs: any) {
         try {
-            usrs = await Promise.all(usrs);
             let friendPosts: any = [];
             await Promise.all(usrs.map(async (usr: any) => {
-                const response = await getPosts(usr?.data?.profile?.id ? usr?.data?.profile?.id : '');
+                const response = await getPosts(usr?.profile?.id ? usr?.profile?.id : user?.userModel?.profile?.id);
                 const result = await Promise.all(response?.map(async(post: any) =>  {
                     post.comments = await Promise.all(post.comments.map(async(comment: any) => {
                         comment.author = await getUser(comment.authorId);
@@ -63,29 +63,25 @@ const Feed: React.FC = (props: any) => {
         }
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getFriendsByUserId(user?.id)
+            await retrieveFriendPosts(response?.users);
+        }
+        fetchData();
+    }, [user]);
+
     return (
         <>
-            <FeedMenu />
+            <SearchMenu />
             <div className="row">
                 <div className="col-lg-7 gedf-main feed-wrapper">
-                    <ActivityInput />
-                    {posts ? posts?.map((post: any) => {
-                        return (
-                            <div key={post.id} className="post-wrapper">
-                                <Post post={post} retrieveFriendPosts={retrieveFriendPosts} />
-                            </div>
-                        )
-                    }) : ''}         
+                    <Outlet />       
                 </div>
-            </div>
-            <div className="ad-wrapper">
-                <a href="#">
-                    <img src="src/assets/walmart-ad.webp" height="200" />
-                </a>
             </div>
             <ChatWidget />
         </>
     );
 }
 
-export default Feed;
+export default SearchResults;

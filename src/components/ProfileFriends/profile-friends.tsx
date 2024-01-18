@@ -5,27 +5,29 @@ import { getFriendsByUserId } from '../../services/api/friend-list';
 import { getUserBySlug } from '../../services/api/user';
 import { useSession } from '../../hooks/useSession';
 import { useLocation } from 'react-router-dom';
+import { UserDto } from '../../services/api/user/dto/user.dto';
+import { useRouteLoaderData } from 'react-router-typesafe';
 
 function ProfileFriends() {
-    let user: any = localStorage.getItem('user')
-    user = JSON.parse(user);
-    const [u, setU] = useState<any>();
+    let user: UserDto = useRouteLoaderData('user') as UserDto;
+    const [u, setU] = useState<UserDto>();
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
+    if(patharr[1] === 'profile') {
+        setU(useRouteLoaderData('profile-user') as UserDto); 
+    } else {
+        setU(user);
+    }
     const [friends, setFriends] = useState<any>();
 
     useEffect(() => {
         const fetchData = async () => {
             if(patharr[1] == 'profile') {
-                const usr = await getUserBySlug(patharr[2])
-                setU(usr);
-                const frnds = await getFriendsByUserId(usr.id);
-                console.log(frnds?.users);
+                const frnds = await getFriendsByUserId(u?.id);
                 setFriends(frnds?.users);
             } else {
-                setU(user);
-                const frnds = await getFriendsByUserId(user?.id);
+                const frnds = await getFriendsByUserId(u?.id);
                 setFriends(frnds?.users);
             }
         }

@@ -23,16 +23,12 @@ function PrivateRoute(props: Props) {
     roles
   })
 
-  if (loadingUserData) {
-    return null
-  }
+  // if (loadingUserData) {
+  //  return null
+ // }
 
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} />
-  }
-
-  if (!hasAllPermissions) {
-    return <Navigate to="/" />
   }
 
   return (

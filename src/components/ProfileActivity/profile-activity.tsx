@@ -6,6 +6,8 @@ import { Button, Form, FormInstance } from 'antd';
 import { useLocation } from 'react-router-dom';
 import ProfileSidebar from './sidebar';
 import MainContent from './main-content';
+import { UserDto } from '../../services/api/user/dto/user.dto';
+import { useRouteLoaderData } from 'react-router-typesafe';
 
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
@@ -37,12 +39,16 @@ const ProfileActivity: React.FC = (props: any) => {
     user = JSON.parse(user);
     const [form] = Form.useForm();
     const [posts, setPosts] = useState<any>();
-    const [u, setU] = useState<any>();
+    const [u, setU] = useState<UserDto>();
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
+    if(patharr[2] === 'profile') {
+      setU(useRouteLoaderData('profile-user') as UserDto);
+    } else {
+      setU(useRouteLoaderData('user') as UserDto);
+    }
     
-
     async function retrievePosts(usr: any) {
         try {
             const response = await getPosts(usr?.profile?.id ? usr?.profile?.id : user?.userModel?.profile?.id);
@@ -65,20 +71,12 @@ const ProfileActivity: React.FC = (props: any) => {
     }
 
     useEffect(() => {
-        if(patharr[1] == 'profile') {
-            let fetchData = async () => {
-                const result = await getUserBySlug(patharr[2]);
-                setU(result);
-                retrievePosts(result);
-                form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
-            }
-            fetchData();
-        } else {
-            setU(user);
-            retrievePosts(user);
-            form.setFieldsValue({ authorId: user?.id, locationId: user?.userModel?.profile?.id });
-        }
-    }, []);
+      let fetchData = async () => {
+        retrievePosts(u);
+        form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
+      }
+      fetchData();
+    }, [u]);
 
     return (
         <>
