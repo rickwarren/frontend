@@ -6,6 +6,11 @@ async function getUsers() {
     return response.data;
 }
 
+async function getCurrentUser() {
+    const response = await api.get('http://localhost:3000/user/current');
+    return response.data;
+}
+
 async function getUser(userId: string) {
     const response = await api.get('http://localhost:3000/user/' + userId);
     return response.data;
@@ -30,6 +35,7 @@ async function deleteUser(userId: string) {
 export {
     getUsers,
     getUser,
+    getCurrentUser,
     getUserBySlug,
     updateUser,
     deleteUser

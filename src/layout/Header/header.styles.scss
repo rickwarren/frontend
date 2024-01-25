@@ -112,10 +112,6 @@ nav.header-link-wrapper {
     height: 32px;
 }
 
-.header-logo {
-    margin-left: 15px;
-}
-
 i.fa.fa-bell.notification-icon {
     font-size: x-large;
 }
@@ -225,3 +221,55 @@ input.search-input {
     width: 350px;
     opacity: 0.25;
 }
+
+.header-link-wrapper .notification-wrapper {
+    display: none;
+    position: absolute;
+    top: 0;
+    padding: 4px;
+    min-height: 50px;
+    list-style-type: none;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border-radius: 8px;
+    outline: none;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 
+                0 3px 6px -4px rgba(0, 0, 0, 0.12), 
+                0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.notification-icon-wrapper:hover ~ ul.notification-wrapper,
+ul.notification-wrapper:hover {
+    display: block;
+}
+
+.header-link-wrapper ul.notification-wrapper {
+    width: 200px;
+    top: 50px;
+    right: 105px;
+    z-index: 1050px;
+}
+
+.notification-icon-wrapper {
+    display: inline;
+}
+
+.header-link-wrapper ul li:first-child {
+    padding-right: 20px;
+}
+
+.search-wrapper span {
+    cursor: pointer;
+    color: blue;
+    font-weight: bold;
+    font-size: large;
+    position: absolute;
+    left: 420px;
+    top: 15px;
+    font-size: x-large;
+}
+
+.search-wrapper {
+    z-index: 999;
+}
+

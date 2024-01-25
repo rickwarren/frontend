@@ -3,13 +3,13 @@ import './profile-friends.scss';
 import { ProfilePeople } from '../../components/ProfilePeople';
 import { getFriendsByUserId } from '../../services/api/friend-list';
 import { getUserBySlug } from '../../services/api/user';
-import { useSession } from '../../hooks/useSession';
 import { useLocation } from 'react-router-dom';
+import { UserDto } from '../../services/api/user/dto/user.dto';
 
 function ProfileFriends() {
-    let user: any = localStorage.getItem('user')
+    let user: any = localStorage.getItem('user');
     user = JSON.parse(user);
-    const [u, setU] = useState<any>();
+    const [u, setU] = useState<UserDto>();
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
@@ -18,11 +18,10 @@ function ProfileFriends() {
     useEffect(() => {
         const fetchData = async () => {
             if(patharr[1] == 'profile') {
-                const usr = await getUserBySlug(patharr[2])
-                setU(usr);
-                const frnds = await getFriendsByUserId(usr.id);
-                console.log(frnds?.users);
+                const response = await getUserBySlug(patharr[2]);
+                const frnds = await getFriendsByUserId(response?.id);
                 setFriends(frnds?.users);
+                setU(response);
             } else {
                 setU(user);
                 const frnds = await getFriendsByUserId(user?.id);

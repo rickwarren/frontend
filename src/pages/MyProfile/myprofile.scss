@@ -414,7 +414,7 @@ span.attachment img.attachment {
 }
 
 .container .row {
-    max-width: 1218px;
+    max-width: 100%;
     margin: auto;
 }
 
@@ -639,6 +639,20 @@ span.ant-upload-list-item-actions {
     top: 35px;
 }
 
+.header-link-wrapper .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
 
+.container .content-wrapper {
+    margin: auto;
+    max-width: 1218px;
+}
 
-  /*end social*/
+.col-lg-7.gedf-main {
+    float: right;
+}
+
+.col-lg-5.left-sidebar {
+    float: left;
+}

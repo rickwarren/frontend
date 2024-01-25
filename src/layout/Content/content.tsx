@@ -1,7 +1,6 @@
 import React from 'react';
 import "./content.styles.scss";
-import { Router } from '../../router';
-import { ChatWidget } from '../../components/ChatWidget';
+import Router from '../../router/Router/Router';
 
 const Content: React.FC = (props: any) => {
     return (

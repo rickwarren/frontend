@@ -20,6 +20,21 @@ async function createLocalFile(data: File) {
     }
 }
 
+async function createLocalVideoFile(data: File) {
+    let formData = new FormData();
+    formData.append("file", data);
+    const response = await api.post("http://localhost:3000/upload/video", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if(response.status === 201) {
+        return response.data;
+    } else {
+        return null;
+    }
+}
+
 async function deleteLocalFile(fileId: string) {
     const response = await api.delete('http://localhost:3000/upload/' + fileId);
     return response.data;
@@ -28,5 +43,6 @@ async function deleteLocalFile(fileId: string) {
 export {
     getLocalFile,
     createLocalFile,
+    createLocalVideoFile,
     deleteLocalFile,
 }

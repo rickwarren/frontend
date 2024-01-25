@@ -8,8 +8,9 @@ import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload';
 import { createLocalFile } from '../../services/api/local-file';
 import { useLocation } from 'react-router-dom';
-import { useFetchUserQuery } from '../../features/api/api-slice';
+import { useFetchUserByUrlStringQuery, useFetchUserQuery } from '../../features/api/api-slice';
 import { getFriendsByUserId } from '../../services/api/friend-list';
+import { getUser } from '../../services/api/user';
 
 dayjs.extend(relativeTime);
 
@@ -66,9 +67,11 @@ const Post = (props: any) => {
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
-    const { data = [], isFetching } = useFetchUserQuery(patharr[2]);
+    const post = props.post;
+    const { data = [], isFetching } = useFetchUserByUrlStringQuery(post.authorId);
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [ready, setReady] = useState<boolean>(false);
     
     const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
@@ -89,8 +92,6 @@ const Post = (props: any) => {
         const imgWindow = window.open(src);
         imgWindow?.document.write(image.outerHTML);
     };
-
-    const post = props.post;
 
     const onFinish = async (values: any) => {
         if(values.message.length > 1) {
@@ -139,16 +140,17 @@ const Post = (props: any) => {
 
     useEffect(() => {
         form.setFieldsValue({ authorId: user?.id, postId: post.id });
-        if(patharr[1] === 'profile') {
-            setU(data);
-        } else {
-            setU({ user });
+        const fetchData = async () => {
+            setU(post.author);
+            setReady(true);
         }
+        fetchData();
     }, [isFetching]);
 
     return (
-        <>
             <div className="card social-timeline-card">
+                {ready ? (
+                    <>
                 <div className="card-header">
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="d-flex justify-content-between align-items-center">
@@ -283,8 +285,11 @@ const Post = (props: any) => {
                     </div>
                 ) : null }
                 </div>
+                </>
+                ) : (
+                    <div>Loading...</div>
+                )}
             </div>
-        </>
     )
 }
 

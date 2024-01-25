@@ -130,7 +130,7 @@ i.fas.fa-xmark {
 
 ul.chat-widget-user-list {
     overflow-y: scroll;
-    height: 250px;
+    height: 400px;
 }
 
 .other-message-text-wrapper {
@@ -140,10 +140,6 @@ ul.chat-widget-user-list {
 .my-message-text-wrapper {
     float: right;
     width: 100%;
-}
-
-ul.chat-window-list {
-    margin-top: 50px;
 }
 
 li.chat-window-other-message {
@@ -200,12 +196,6 @@ ul.chat-window-list li {
     max-width: 85%;
 }
 
-.chat-window-container .comments-input-wrapper {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
 .chat-window-container textarea#post_message {
     bottom: 0;
     width: 75%;
@@ -219,7 +209,8 @@ ul.chat-window-list li {
 .chat-window-container .comments-input {
     position: absolute;
     bottom: 0;
-    width: 380px;
+    width: 300px;
+    left: 0;
 }
 
 .chat-window-container .submit-wrapper {
@@ -229,10 +220,6 @@ ul.chat-window-list li {
 
 .chat-window-container textarea#post_message {
     width: 75% !important;
-}
-
-.chat-window-container .other-message-text-wrapper {
-    margin-top: 10px;
 }
 
 .chat-window-container .other-message-text-wrapper {
@@ -264,7 +251,7 @@ textarea#post_message {
 
 ul.chat-window-list {
     max-height: 350px;
-    height: 350px;
+    height: 300px;
     overflow-y: scroll;
 }
 
@@ -310,3 +297,40 @@ span.ant-badge-status-dot.ant-badge-status-default {
     min-width: 15px;
     min-height: 15px;
 }
+
+.friends-wrapper svg.svg-inline--fa.fa-magnifying-glass {
+    top: 100px;
+    left: 95px;
+}
+
+.friends-wrapper > .search-wrapper > span {
+    top: 95px;
+    left: 375px;
+}
+
+.chat-widget-wrapper {
+    position: fixed;
+}
+
+.comments-input-wrapper {
+    max-height: 120px;
+}
+
+.chat-widget-user-window .comments-input-wrapper {
+    max-height: 80px;
+}
+
+.comments-input textarea {
+    max-width: 250px;
+}
+
+.comments-input {
+    left: 0;
+}
+
+.chat-window-container .comments-input-wrapper {
+    position: absolute;
+    bottom: 75px;
+    width: 100%;
+}
+

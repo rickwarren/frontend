@@ -1,0 +1,65 @@
+.search-results-container {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 80px;
+}
+
+.banner-container div.img {
+    background-image: url('http://localhost:3001/src/assets/banner.jpg');
+    min-height: 130px;
+    max-height: 130px;
+    width: 100%;
+    background-position: center;
+    background-size: contain;
+}
+
+img.avatar {
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.user-info {
+    font-size: xx-large;
+    color: #ffffff;
+}
+
+.user-info {
+    display: inline-block;
+    margin-top: 0;
+}
+
+.avatar-container {
+    display: inline-block;
+    padding: 10px;
+}
+
+.user-wrapper {
+    margin-bottom: 35px;
+    box-shadow: 0 5px 10px 0 rgba(26, 44, 57, 0.50);
+}
+
+.user-info p.city {
+    font-size: large;
+}
+
+.user-info p.name {
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+.user-info {
+    vertical-align: middle;
+}
+
+.posts-container,
+.sponsors-container,
+.people-wrapper,
+.charities-container {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 80px;
+}

@@ -1,0 +1,1 @@
+export { default as FriendRequest } from './friend-request';
