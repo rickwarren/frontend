@@ -7,8 +7,6 @@ import { useLocation } from 'react-router-dom';
 import ProfileSidebar from './sidebar';
 import MainContent from './main-content';
 import { UserDto } from '../../services/api/user/dto/user.dto';
-import { useRouteLoaderData } from 'react-router-typesafe';
-
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
@@ -43,11 +41,6 @@ const ProfileActivity: React.FC = (props: any) => {
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
-    if(patharr[2] === 'profile') {
-      setU(useRouteLoaderData('profile-user') as UserDto);
-    } else {
-      setU(useRouteLoaderData('user') as UserDto);
-    }
     
     async function retrievePosts(usr: any) {
         try {
@@ -72,11 +65,18 @@ const ProfileActivity: React.FC = (props: any) => {
 
     useEffect(() => {
       let fetchData = async () => {
-        retrievePosts(u);
-        form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
+        if(patharr[1] === 'profile') {
+          const response = await getUserBySlug(patharr[2]);
+          setU(response);
+          retrievePosts(response);
+          form.setFieldsValue({ authorId: user?.id, locationId: response?.profile?.id });
+        } else {
+          setU(user);
+          retrievePosts(user);
+        }
       }
       fetchData();
-    }, [u]);
+    }, []);
 
     return (
         <>

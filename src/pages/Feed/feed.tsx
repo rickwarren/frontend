@@ -3,13 +3,12 @@ import './feed.scss';
 import { MenuProps } from 'antd';
 import { getPosts } from '../../services/api/post';
 import { Post } from '../../components/Post';
-import { getUser } from '../../services/api/user';
+import { getCurrentUser, getUser } from '../../services/api/user';
 import { ChatWidget } from '../../components/ChatWidget';
 import ActivityInput from '../../components/ProfileActivity/activity-input';
 import FeedMenu from './feed-menu';
-import { useRouteLoaderData } from 'react-router-typesafe';
 import { UserDto } from '../../services/api/user/dto/user.dto';
-import { PostDto } from '../../services/api/post/dto/post.dto';
+import { getFriendsByUserId } from '../../services/api/friend-list';
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
         console.log('click ', key);
@@ -32,9 +31,8 @@ const items: MenuProps['items'] = [
 ];  
 
 const Feed: React.FC = (props: any) => {
-    const friendPosts: PostDto[] = useRouteLoaderData('friend-posts') as PostDto[];
-    const user: UserDto | boolean = useRouteLoaderData('user') as UserDto;
-    const [posts, setPosts] = useState<any>(friendPosts);
+    const [user, setUser] = useState<UserDto>();
+    const [posts, setPosts] = useState<any>();
 
     async function retrieveFriendPosts(usrs: any) {
         try {
@@ -63,11 +61,21 @@ const Feed: React.FC = (props: any) => {
         }
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const usr = await getCurrentUser();
+            setUser(usr);
+            const response = await getFriendsByUserId(usr?.id)
+            await retrieveFriendPosts(response?.users);
+        }
+        fetchData();
+    }, [])
+
     return (
         <>
             <FeedMenu />
             <div className="row">
-                <div className="col-lg-7 gedf-main feed-wrapper">
+                <div className="col-lg-4 gedf-main feed-wrapper">
                     <ActivityInput />
                     {posts ? posts?.map((post: any) => {
                         return (

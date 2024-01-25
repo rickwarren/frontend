@@ -53,7 +53,7 @@ function AuthProvider(props: Props) {
   }
 
   async function signUp(params: SignUpCredentials) {
-    const { email, password } = params
+    const { firstName, lastName, email, password } = params
     const payload = {
       email: email,
       password: password,
@@ -61,7 +61,13 @@ function AuthProvider(props: Props) {
     }
 
     try {
-      await api.post('/user/register', payload)
+      const user = await api.post('/user/register', payload)
+      const profilePayload = { 
+        firstName: firstName, 
+        lastName: lastName, 
+        ownerId: user.id
+      }
+      await api.post('/profile', profilePayload)
     } catch (error) {
       const err = error as AxiosError
       return err

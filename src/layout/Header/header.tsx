@@ -8,17 +8,19 @@ import Search, { SearchProps } from 'antd/es/input/Search';
 import { getUser } from '../../services/api/user';
 import Notifications from './notifications';
 import { searchQuery } from '../../services/api/search';
+import { useNavigate } from 'react-router';
 
 const Header: React.FC = (props: any) => {
     const { user, isAuthenticated, signOut } = useSession();
     const [visibility, setVisibility] = useState<string>('hidden');
     const [value, setValue] = useState<string>('');
+    const navigate = useNavigate();
 
     const items: MenuProps['items'] = [
         {
             key: '0',
             label: (
-                <Link to="/profile/testuser">My Profile</Link>
+                <Link to="/myprofile">My Profile</Link>
             ),
         },
         {
@@ -27,7 +29,7 @@ const Header: React.FC = (props: any) => {
         {
             key: '1',
             label: (
-                <Link to="/myprofile">Settings</Link>
+                <Link to="#">Settings</Link>
             ),
         },
         {
@@ -61,8 +63,7 @@ const Header: React.FC = (props: any) => {
         if(e.key === 'Enter') {
             setVisibility('hidden');
             setValue('');
-            const results = await searchQuery(e.target.value);
-            console.log(results);
+            navigate('/search?q=' + e.target.value);
         }
     }
 

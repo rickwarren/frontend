@@ -1,14 +1,13 @@
 import React from 'react'
-import { AuthProvider } from "../../providers/AuthProvider"
 import Content from "../Content/content"
 import Header from "../Header/header"
 
 const Layout = (props: any) => {
     return (
-          <AuthProvider>
+      <div className="layout-wrapper">
             <Header />
             <Content />
-          </AuthProvider>
+      </div>
     )
   }
   

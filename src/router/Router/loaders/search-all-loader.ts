@@ -1,3 +1,4 @@
+import React from 'react';
 import { searchQuery } from "../../../services/api/search/searchApi";
 
 

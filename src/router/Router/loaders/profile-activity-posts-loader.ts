@@ -1,3 +1,4 @@
+import React from 'react';
 import { getFriendsByUserId } from "../../../services/api/friend-list";
 import { getPosts } from "../../../services/api/post";
 import { getCurrentUser, getUser, getUserBySlug } from "../../../services/api/user";

@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
-import { useFetchUserQuery } from "../../features/api/api-slice";
-import { useSession } from "../../hooks";
-import { useRouteLoaderData } from "react-router-typesafe";
+import { useState } from "react";
 import { UserDto } from "../../services/api/user/dto/user.dto";
+import { getCurrentUser, getUserBySlug } from "../../services/api/user";
 
 const getCurrentProfile = async () => {
-    const [usr, setUsr] = useState<any>();
-    const user: UserDto = useRouteLoaderData('user') as UserDto;
+    const [usr, setUsr] = useState<UserDto>();
     const path = location.pathname;
     const patharr = path.split('/');
-    const { data = [], isFetching } = await useFetchUserQuery(patharr[2]);    
-
-    if(patharr[1] === 'profile') {
-        setUsr(data);
+    if (patharr[1] === 'profile') {
+        setUsr(await getUserBySlug(patharr[2]));
     } else {
-        setUsr(user);
+        setUsr(await getCurrentUser());
     }
 
     return usr;

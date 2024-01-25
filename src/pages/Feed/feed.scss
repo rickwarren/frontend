@@ -413,10 +413,6 @@ a {
     width: 260px;
 }
 
-.card.social-timeline-card.newpost {
-    margin-bottom: 35px;
-}
-
 .ad-wrapper {
     position: absolute;
     top: 150px;
@@ -439,7 +435,7 @@ li.feed-menu-item {
 
 li.feed-menu-item a {
     display: inline-block;
-    width: 200px;
+    width: 220px;
 }
 
 
@@ -449,12 +445,12 @@ li.feed-menu-item i {
 }
 
 .feed-menu-wrapper {
-    max-width: 200px;
-    width: 200px;
+    max-width: 220px;
+    width: 220px;
 }
 
 li.feed-menu-item {
-    width: 200px;
+    width: 220px;
     padding: 10px;
 }
 
@@ -510,7 +506,7 @@ ul.feed-menu-list {
     display: none;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 750px) {
     .feed-menu-wrapper {
         display: none;
     }
@@ -536,5 +532,74 @@ li.feed-menu-item a {
 li.feed-menu-item > a {
     color: rgba(0, 0, 0, 0.5);
 }
+
+.card.social-timeline-card.newpost {
+    display: inline-block;
+}
+
+.card.social-timeline-card.newpost {
+    width: 500px;
+}
+
+.card.social-timeline-card.newpost {
+    min-width: 500px;
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 35px;
+}
+
+.feed-wrapper .card.social-timeline-card, 
+.feed-wrapper .post-wrapper {
+    min-width: 500px;
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 35px;
+}
+
+.col-lg-4.gedf-main.feed-wrapper {
+    max-width: 500px;
+}
+
+.friends-wrapper,
+.friends-friends-wrapper {
+    margin-top: 80px;
+}
+
+.friends-wrapper svg.svg-inline--fa.fa-magnifying-glass,
+.friends-friends-wrapper svg.svg-inline--fa.fa-magnifying-glass {
+    top: 100px;
+    left: 95px;
+}
+
+.friends-wrapper > .search-wrapper > span,
+.friends-friends-wrapper > .search-wrapper > span {
+    top: 95px;
+    left: 375px;
+}
+
+.friends-wrapper .search-wrapper, 
+.friends-friends-wrapper .search-wrapper {
+    margin: auto;
+}
+
+li.feed-menu-item.active {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.col-lg-4.gedf-main.feed-wrapper {
+    margin-top: 80px;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.banner-container div.img {
+    background-repeat: no-repeat;
+    background-size: cover !important;
+}
+
+
 /*end social*/
 

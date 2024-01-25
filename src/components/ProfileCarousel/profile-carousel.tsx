@@ -1,4 +1,4 @@
-import { useFetchUserQuery } from '../../features/api/api-slice';
+import { useFetchUserByUrlStringQuery, useFetchUserQuery } from '../../features/api/api-slice';
 import { useSession } from '../../hooks';
 import { getPhotos } from '../../services/api/photo';
 import { getUserBySlug } from '../../services/api/user';
@@ -11,14 +11,14 @@ const ProfileCarousel: React.FC = (props: any) => {
     const path = location.pathname;
     const { user } = useSession();
     const patharr = path.split('/');
-    const {data = [], isFetching } = useFetchUserQuery(patharr[2]);
-    const [photos, setPhotos] = useState<string[]>([]);
+    const {data = [], isFetching } = useFetchUserByUrlStringQuery(patharr[2]);
+    const [photos, setPhotos] = useState<any[]>([]);
 
     const retrievePhotos = async (usr: any) => {
         const photoList = await getPhotos(usr?.id ? usr?.id : user?.id);
         if(photoList) {
             const list = photoList.map((photo) => {
-                return 'http://localhost:3000/upload/' + photo.localFileId;
+                return { url: 'http://localhost:3000/upload/' + photo.localFileId, id: photo.id };
             });
             const photosList = [];
             for(let i = 0; i < 9; i++) {
@@ -49,10 +49,10 @@ const ProfileCarousel: React.FC = (props: any) => {
                         </span>
                     </div>
                     <ul className="photos-list">
-                        { photos.map((photo, index) => (
+                        { photos.map((photo) => (
                             <>
-                                <li key={index} className="photos-item">
-                                    <img src={photo} className="photos-img" />
+                                <li key={photo?.id} className="photos-item">
+                                    <img src={photo?.url} className="photos-img" />
                                 </li>
                             </>
                         ))}

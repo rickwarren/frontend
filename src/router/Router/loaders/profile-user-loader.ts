@@ -1,3 +1,4 @@
+import React from 'react';
 import { getUserBySlug } from "../../../services/api/user";
 
 export const profileUserLoader = async (params: any) => {

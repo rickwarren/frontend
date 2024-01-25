@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import './profile.scss';
 import '../../styles/bootstrap.min.css';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { UploadFile, UploadProps } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { getProfile, updateProfile } from '../../services/api/profile';
 import { ProfileDto } from '../../services/api/profile/dto/profile.dto';
-import { dateToYYYYMMDD_HHMM, formatDate } from '../../utils/date';
+import { dateToYYYYMMDD_HHMM } from '../../utils/date';
 import { createLocalFile } from '../../services/api/local-file';
 import FriendRequest from '../../components/FriendRequest/friend-request';
-import { useRouteLoaderData } from 'react-router-typesafe';
 import { UserDto } from '../../services/api/user/dto/user.dto';
+import { getCurrentUser, getUserBySlug } from '../../services/api/user';
 
 const Profile: React.FC = () => {
-    const user: UserDto = useRouteLoaderData('profile-user') as UserDto;
+    const [user, setUser] = useState<UserDto>();
+    const [u, setU] = useState<UserDto>();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const location = useLocation();
+    const path = location.pathname;
+    const patharr = path.split('/');
     
     const onChange: UploadProps['onChange'] = async ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
@@ -55,18 +59,27 @@ const Profile: React.FC = () => {
     }
 
     useEffect(() => {
-        setFileList([
-            {
-                uid: '-1',
-                name: '',
-                status: 'done',
-                url: 'http://localhost:3000/upload/' + user?.profile?.profilePhoto,
-            },
-        ]);
-    }, [user]);
+        const fetchData = async () => {
+            const response = await getCurrentUser()
+            const result = await getUserBySlug(patharr[2])
+            setUser(response);
+            setU(result);
+            setFileList([
+                {
+                    uid: '-1',
+                    name: '',
+                    status: 'done',
+                    url: 'http://localhost:3000/upload/' + result?.profile?.profilePhoto,
+                },
+            ]);
+        }
+        fetchData();
+    }, []);
 
 return (
-    <div>
+    <div> 
+        {u ? (
+            <>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet"/>
         <main>
             <div className='container myprofile'>
@@ -83,7 +96,7 @@ return (
                                                         <div className="ant-upload-list-item-container">
                                                             <div className="ant-upload-list-item ant-upload-list-item-done">
                                                                 <a href="#" className="ant-upload-list-item-thumbnail">
-                                                                    <img src={'http://localhost:3000/upload/' + user?.profile?.profilePhoto} className="ant-upload-list-item-image" />
+                                                                    <img src={'http://localhost:3000/upload/' + u?.profile?.profilePhoto} className="ant-upload-list-item-image" />
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -93,8 +106,8 @@ return (
                                             </div>
                                         </div>
                                         <div className="details">
-                                            <h3>{user?.profile?.firstName} {user?.profile?.lastName}</h3>
-                                            <p>{user?.profile?.profession}</p>
+                                            <h3>{u?.profile?.firstName} {u?.profile?.lastName}</h3>
+                                            <p>{u?.profile?.profession}</p>
                                         </div>
                                         <FriendRequest />
                                     </div>
@@ -105,7 +118,6 @@ return (
                                                 <li><Link className={ location.pathname === 'about' ? 'active' : '' } to="about">About</Link></li>
                                                 <li><Link className={ location.pathname === 'friends' ? 'active' : '' } to="friends">Friends</Link></li>
                                                 <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li>
-                                                <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li> 
                                             </ul>
                                         </div>
                                     </div>
@@ -114,10 +126,18 @@ return (
                         </div>
                     </div>
                     <div className="row">
-                        <Outlet />
+                        <div className="content-wrapper">
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
-            </main>   
+            </main>  
+            </>
+        ) : (
+            <div>
+                <h1>Loading...</h1>
+            </div>
+        )}
         </div> 
     );
 }

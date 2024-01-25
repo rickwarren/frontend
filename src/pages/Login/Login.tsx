@@ -76,7 +76,7 @@ function Login() {
   };
 
   const onFinish = (values: any) => {
-    signUp({ email: values.email, password: values.password})
+    signUp({ firstName: values.firstName, lastName: values.lastName, email: values.email, password: values.password})
     setOpen(false);
   };
 
@@ -140,6 +140,38 @@ function Login() {
       style={{ maxWidth: 600 }}
       scrollToFirstError
     >
+      <Form.Item
+        name="firstName"
+        label="First Name"
+        rules={[
+          {
+            type: 'string',
+            message: 'The input is not valid string!',
+          },
+          {
+            required: true,
+            message: 'Please input your first name!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="lastName"
+        label="Last Name"
+        rules={[
+          {
+            type: 'string',
+            message: 'The input is not valid string!',
+          },
+          {
+            required: true,
+            message: 'Please input your last name!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
       <Form.Item
         name="email"
         label="E-mail"

@@ -156,7 +156,7 @@ export const ChatWidgetWindow = (props: ChatWidgetWindowProps) => {
                     <div className="chat-window-other-avatar-wrapper">
                       <img
                         src={`http://localhost:3000/upload/${user?.userModel?.profile?.profilePhoto}`}
-                        height="50"
+                        height="30"
                       />
                       <div className="other-message-text-wrapper">
                         <span className="other-message-text">

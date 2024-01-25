@@ -17,17 +17,25 @@ function PrivateRoute(props: Props) {
   const { permissions, roles, redirectTo = '/login', children } = props
 
   const { isAuthenticated, user, loadingUserData } = useSession()
-  const { hasAllPermissions } = validateUserPermissions({
+  const { hasAllPermissions, hasAllRoles } = validateUserPermissions({
     user,
     permissions,
     roles
   })
 
-  // if (loadingUserData) {
-  //  return null
- // }
+  if (loadingUserData) {
+    return null
+  }
 
   if (!isAuthenticated) {
+    return <Navigate to={redirectTo} />
+  }
+
+  if (!hasAllPermissions) {
+    return <Navigate to={redirectTo} />
+  }
+
+  if (!hasAllRoles) {
     return <Navigate to={redirectTo} />
   }
 

@@ -1,4 +1,4 @@
-const FEED_PATH = '/home'
+const FEED_PATH = '/'
 const LOGIN_PATH = '/login'
 const REGISTER_PATH = '/register'
 const PROFILE_PATH = '/myprofile'
@@ -8,12 +8,18 @@ const PROFILE_ABOUT_PATH = 'about'
 const PROFILE_FRIENDS_PATH = 'friends'
 const PROFILE_PHOTOS_PATH = 'photos'
 const PROFILE_VIDEOS_PATH = 'videos'
-const SEARCH_RESULTS_PATH = 'search-results'
+const SEARCH_RESULTS_PATH = 'search'
 const SEARCH_RESULTS_ALL_PATH = 'all'
 const SEARCH_RESULTS_PEOPLE_PATH = 'people'
 const SEARCH_RESULTS_POSTS_PATH = 'posts'
 const SEARCH_RESULTS_CHARITIES_PATH = 'charities'
 const SEARCH_RESULTS_SPONSORS_PATH = 'sponsors'
+const FRIENDS_PATH = '/friends'
+const FRIENDS_OF_FRIENDS_PATH = 'friends'
+const VIDEOS_PATH = '/videos'
+const VIDEOS_ALL_PATH = 'all'
+const VIDEOS_FRIENDS_PATH = 'friends'
+const VIDEOS_FRIENDS_OF_FRIENDS_PATH = 'friends-of-friends'
 
 const paths = {
   FEED_PATH,
@@ -31,7 +37,13 @@ const paths = {
   SEARCH_RESULTS_PEOPLE_PATH,
   SEARCH_RESULTS_POSTS_PATH,
   SEARCH_RESULTS_CHARITIES_PATH,
-  SEARCH_RESULTS_SPONSORS_PATH
+  SEARCH_RESULTS_SPONSORS_PATH,
+  FRIENDS_PATH,
+  FRIENDS_OF_FRIENDS_PATH,
+  VIDEOS_PATH,
+  VIDEOS_ALL_PATH,
+  VIDEOS_FRIENDS_PATH,
+  VIDEOS_FRIENDS_OF_FRIENDS_PATH,
 } as const
 
 export default paths

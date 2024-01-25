@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import './myprofile.scss';
 import '../../styles/bootstrap.min.css';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useSession } from '../../hooks';
-import { getUserBySlug } from '../../services/api/user';
+import { getCurrentUser, getUserBySlug } from '../../services/api/user';
 import { PostDto } from '../../services/api/post/dto/post.dto';
-import { UploadFile, UploadProps } from 'antd';
-import Upload, { RcFile } from 'antd/es/upload';
 import { getProfile, updateProfile } from '../../services/api/profile';
 import ImgCrop from 'antd-img-crop';
 import { ProfileDto } from '../../services/api/profile/dto/profile.dto';
 import { dateToYYYYMMDD_HHMM, formatDate } from '../../utils/date';
 import { createLocalFile } from '../../services/api/local-file';
-import { useFetchCurrentUserQuery, useFetchUserQuery } from '../../features/api/api-slice';
-import { getFriendsByUserId } from '../../services/api/friend-list';
-import { createFriendRequest, getFriendRequestsByUserId } from '../../services/api/friend-request';
-import { Loader } from '../../components/Loader';
 import { UserDto } from '../../services/api/user/dto/user.dto';
-import { useRouteLoaderData } from 'react-router-typesafe';
+import { Upload, UploadFile, UploadProps } from 'antd';
+import { RcFile } from 'antd/es/upload/interface';
+import { useLocation, Link, Outlet } from 'react-router-dom';
+import ChatWidget from '../../components/ChatWidget/chat-widget';
+
 
 const MyProfile: React.FC = () => {
-    const user: UserDto = useRouteLoaderData('profile-user') as UserDto;
     const location = useLocation();
+    const [user, setUser] = useState<UserDto>();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     
@@ -59,6 +56,11 @@ const MyProfile: React.FC = () => {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            const usr = await getCurrentUser();
+            setUser(usr);
+        }
+        fetchData();
         setFileList([
             {
                 uid: '-1',
@@ -118,8 +120,8 @@ const MyProfile: React.FC = () => {
                                                 <li><Link className={ location.pathname === 'activity' ? 'active' : '' } to="activity">Timeline</Link></li>
                                                 <li><Link className={ location.pathname === 'about' ? 'active' : '' } to="about">About</Link></li>
                                                 <li><Link className={ location.pathname === 'friends' ? 'active' : '' } to="friends">Friends</Link></li>
-                                                <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li>
-                                                <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li> 
+                                                <li><Link className={ location.pathname === 'photos' ? 'active' : '' } to="photos">Photos</Link></li> 
+                                                <li><Link className={ location.pathname === 'videos' ? 'active' : '' } to="videos">Videos</Link></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -128,7 +130,9 @@ const MyProfile: React.FC = () => {
                         </div>
                     </div>
                     <div className="row">
-                        <Outlet />
+                        <div className="content-wrapper">
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
             </main>

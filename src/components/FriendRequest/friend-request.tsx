@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { UserDto } from '../../services/api/user/dto/user.dto';
-import { useRouteLoaderData } from 'react-router-typesafe';
 import { useLocation } from 'react-router-dom';
 import { createFriendRequest, getFriendRequestsByUserId } from '../../services/api/friend-request';
 import { getFriendsByUserId } from '../../services/api/friend-list';
+import { getUserBySlug } from '../../services/api/user';
+import { getCurrentUser } from '../../services/api/user';
 
 const FriendRequest = () => {
-    const user: UserDto = useRouteLoaderData('user') as UserDto;
+    const [user, setUser] = useState<UserDto>();
     const [u, setU] = useState<UserDto>();
     const [friend, setFriend] = useState<any>();
     const [friendRequested, setFriendRequested] = useState<boolean>(false);
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
-    if(typeof user?.id == string && patharr[1] === 'profile') {
-        setU(useRouteLoaderData('profile-user') as UserDto);
-    } else {
-        setU(user);
-    }
 
     const messageFriend = async () => {
         console.log('open message window');
@@ -33,6 +29,18 @@ const FriendRequest = () => {
             setFriendRequested(true);
         }
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setUser(await getCurrentUser());
+            if(patharr[1] === 'profile') {
+                setU(await getUserBySlug(patharr[2]));
+            } else {
+                setU(user);
+            }
+        }
+        fetchData();
+    }, [])
 
     useEffect(() => {
         const fetchFriends = async () => {

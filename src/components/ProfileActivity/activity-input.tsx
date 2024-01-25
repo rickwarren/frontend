@@ -6,7 +6,7 @@ import { createLocalFile } from '../../services/api/local-file'
 import { createPost } from '../../services/api/post'
 import { useLocation } from 'react-router-dom'
 import { UserDto } from '../../services/api/user/dto/user.dto'
-import { useRouteLoaderData } from 'react-router-typesafe'
+import { getCurrentUser, getUserBySlug } from '../../services/api/user'
 
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
@@ -33,7 +33,7 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
   };
 
 const ActivityInput = (props: any) => {
-    const user: UserDto = useRouteLoaderData('user') as UserDto;
+    const [user, setUser] = useState<UserDto>();
     const [form] = Form.useForm();
     const [image, setImage] = useState<any>();
     const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -41,11 +41,6 @@ const ActivityInput = (props: any) => {
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
-    if(patharr[2] === 'profile') {
-        setU(useRouteLoaderData('profile-user') as UserDto);
-    } else {
-        setU(user);
-    }
     
     const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
         setFileList(newFileList);
@@ -98,6 +93,16 @@ const ActivityInput = (props: any) => {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            const user = await getCurrentUser();
+            setUser(user);
+            if(patharr[1] === 'profile') {
+                setU(await getUserBySlug(patharr[2]));
+            } else {
+                setU(user);
+            }
+        }
+        fetchData();
         form.setFieldsValue({ authorId: user?.id, locationId: u?.profile?.id });
     }, []);
 

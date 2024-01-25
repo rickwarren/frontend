@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSession } from "../../../hooks/useSession";
 import { getCurrentUser } from "../../../services/api/user";
 

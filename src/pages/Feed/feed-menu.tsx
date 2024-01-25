@@ -22,6 +22,12 @@ const FeedMenu = (props: any) => {
                         </Link>
                     </li>
                     <li className="feed-menu-item">
+                        <Link to="/videos">
+                            <i className="fa fa-video" />
+                            <h5>Videos</h5>
+                        </Link>
+                    </li>
+                    <li className="feed-menu-item">
                         <Link to="/charities">
                             <i className="fa fa-hand-holding-heart" />
                             <h5>Charities</h5>
@@ -31,12 +37,6 @@ const FeedMenu = (props: any) => {
                         <Link to="/sponsors">
                             <i className="fa fa-briefcase" />
                             <h5>Sponsors</h5>
-                        </Link>
-                    </li>
-                    <li className="feed-menu-item">
-                        <Link to="/videos">
-                            <i className="fa fa-video" />
-                            <h5>Videos</h5>
                         </Link>
                     </li>
                 </ul>

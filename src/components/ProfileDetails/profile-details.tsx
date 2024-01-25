@@ -3,7 +3,7 @@ import './profile-details.scss';
 import { useSession } from '../../hooks';
 import { useLocation } from 'react-router-dom';
 import { getUserBySlug } from '../../services/api/user';
-import { useFetchUserQuery } from '../../features/api/api-slice';
+import { useFetchUserByUrlStringQuery, useFetchUserQuery } from '../../features/api/api-slice';
 
 const ProfileDetails: React.FC = (props: any) => {
     let user: any = localStorage.getItem('user')
@@ -12,7 +12,7 @@ const ProfileDetails: React.FC = (props: any) => {
     const location = useLocation();
     const path = location.pathname;
     const patharr = path.split('/');
-    const {data = [], isFetching} = useFetchUserQuery(patharr[2]);
+    const {data = [], isFetching} = useFetchUserByUrlStringQuery(patharr[2]);
       
     useEffect(() => {
         if(patharr[1] === 'profile') {
