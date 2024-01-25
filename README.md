@@ -1,41 +1,49 @@
 <p align="center">
-  <a href="https://www.learnwithjason.dev">
-    <img src="https://res.cloudinary.com/jlengstorf/image/upload/q_auto,f_auto,w_240/v1579281727/lwj/learnwithjason.png" alt="Learn With Jason" width="120" />
-  </a>
-</p>
-<h1 align="center">
-  Let’s Learn Modern Redux! (with Mark Erikson)
-</h1>
-<h3 align="center">
-  This app was built live on <em>Learn With Jason</em> and it was super fun and I’m sad you weren’t there.
-</h3>
-<p align="center">
-  But don’t worry! You can still: 
-  <a href="https://www.learnwithjason.dev/let-s-learn-modern-redux"><strong>watch the video</strong></a> · 
-  <a href="https://lets-learn-redux-toolkit.netlify.app"><strong>see the demo</strong></a> · 
-  <a href="https://app.netlify.com/start/deploy?repository=https://github.com/learnwithjason/lets-learn-redux-toolkit&utm_source=learnwithjason&utm_medium=github&utm_campaign=devex"><strong>deploy this project</strong></a> · 
-  <a href="https://jason.af/lwj/schedule"><strong>see upcoming episodes</strong></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-&nbsp;
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-A lot has changed in Redux since it was originally created. In this episode, Mark Erikson will teach us about Redux Toolkit an React-Redux hooks.
-
-&nbsp;
-
-## More Information
-
-- [Watch this app get built live + see links and additional resources][episode]
-- [Follow _Learn With Jason_ on Twitch][twitch] to watch future episodes live
-- [Add the _Learn With Jason_ schedule to your Google Calendar][cal]
-
-&nbsp;
-<p align="center">
-  <a href="https://app.netlify.com/start/deploy?repository=https://github.com/learnwithjason/lets-learn-redux-toolkit&utm_source=learnwithjason&utm_medium=github&utm_campaign=devex">
-    <img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy this project to Netlify" />
-  </a>
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-[episode]: https://www.learnwithjason.dev/let-s-learn-modern-redux
-[twitch]: https://jason.af/twitch
-[cal]: https://jason.af/lwj/cal
+## Description
+
+[Nest](https://github.com/nestjs/nest) framework TypeScript microservice gateway.
+
+Used in conjunction with several gRPC servers for interservice communication.
+
+## Installation
+
+```bash
+$ npm install
+```
+
+## Running the app
+
+```bash
+$ npm run start
+```
+a
+## Support
+
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+
+## Stay in touch
+
+- Author - [Rick Warren](https://linkedin.com/in/rickgwarren)
