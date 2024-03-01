@@ -12,7 +12,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@rajesh896/video-thumbnails-generator": "^2.3.9",
-    "@reduxjs/toolkit": "^2.0.1",
+    "@reduxjs/toolkit": "^2.2.1",
     "@socket.io/component-emitter": "^3.1.0",
     "antd": "^5.12.5",
     "antd-img-crop": "^4.18.0",
